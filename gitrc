@@ -1,0 +1,27 @@
+# vim:ft=gitconfig
+
+[core]
+    pager = less
+    editor = vim
+
+[color]
+    ui = auto
+    grep = auto
+
+[grep]
+    lineNumber = true
+
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+	df = diff
+	nn = annotate
+
+[merge]
+    tool = vimdiff
+    conflictstyle = diff3
+
+[mergetool]
+    prompt = false
