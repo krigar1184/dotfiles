@@ -1,7 +1,10 @@
 # vim:ft=gitconfig
 
+[user]
+    name = Nikita Antonenkov
+    email = krigar1184@gmail.com
 [core]
-    pager = less
+    pager = diff-so-fancy | less --tabs=4 -RFX
     editor = vim
 
 [color]

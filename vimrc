@@ -24,31 +24,32 @@ autocmd BufLeave term://* stopinsert
 autocmd FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 
 " === MAPPINGS ===
-nnoremap ,ipdb oimport ipdb;ipdb.set_trace(context=10)<Esc>
+nnoremap <leader>ipdb oimport ipdb;ipdb.set_trace(context=10)<Esc>
+nnoremap <leader>pdb oimport pdb;pdb.set_trace(context=10)
 nnoremap gV `[v`]
 nnoremap <leader>tn :NERDTreeToggle<CR>
 nnoremap <leader>u :GundoToggle<CR>
 nnoremap <leader>ev :vsp $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 nnoremap <leader>ez :vsp ~/.zshrc<CR>
-nnoremap <leader>sz :source ~/.zshrc<CR>
+nnoremap <leader>et :vsp ~/.tmux.conf<CR>
 nnoremap <leader>tt :sp term://bash<CR>
-nnoremap <leader>a :Ack
+nnoremap <leader>a :Ack<CR>
+nnoremap <leader>gb :Gblame<CR>
 
 noremap <C-k> <C-w><Up>
 noremap <C-j> <C-w><Down>
 noremap <C-l> <C-w><Right>
 noremap <C-h> <C-w><Left>
 
-nmap <silent> t<C-n> :TestNearest<CR>
-nmap <silent> t<C-f> :TestFile<CR>
-nmap <silent> t<C-s> :TestSuite<CR>
-nmap <silent> t<C-l> :TestLast<CR>
-nmap <silent> t<C-g> :TestVisit<CR>
+nnoremap <silent> t<C-n> :TestNearest<CR>
+nnoremap <silent> t<C-f> :TestFile<CR>
+nnoremap <silent> t<C-s> :TestSuite<CR>
+nnoremap <silent> t<C-l> :TestLast<CR>
+nnoremap <silent> t<C-g> :TestVisit<CR>
 
 let test#strategy="neovim"
 let test#python#runner="pytest"
-let test#project_root=$PYTEST_ROOT
 
 tnoremap <Esc> <C-\><C-n>
 
@@ -108,6 +109,7 @@ let g:jsx_ext_required=0
 
 " nerdtree
 autocmd vimenter * NERDTree
+let NERDTreeShowLineNumbers=1
 
 " gitgutter config
 let g:gitgutter_realtime=0
