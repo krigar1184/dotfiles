@@ -111,6 +111,20 @@ onoremap al[ :<c-u>normal! F]va[<cr>
   colorscheme solarized
   " }}}
   
+  " Tagbar {{{
+  nnoremap <F8> :TagberToggle<cr>
+  let g:tagbar_autofocus = 1
+  let g:tagbar_sort = 1
+  let g:tagbar_show_visibility = 1
+  let g:tagbar_show_linenumbers = 1
+  let g:tagbarshowtag = 1
+  " }}}
+  
+  " CtrlP {{{
+  let g:ctrlp_match_window = "bottom,order:ttb"
+  let g:ctrlp_switch_buffer = 0
+  let g:ctrp_working_path_mode = 0
+  let g:ctrlp_user_command = 'ag %s -l --color --hidden -g ""'
 " }}}
 
 " Vimscript file settings {{{
