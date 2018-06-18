@@ -84,7 +84,6 @@ vnoremap <leader>' <esc>`<i'<esc>`><esc>a'<esc>
 
 nnoremap H ^
 nnoremap L $
-
 onoremap p i(
 
 onoremap in( :<c-u>normal! f(vi(<cr>
@@ -96,9 +95,15 @@ onoremap in[ :<c-u>normal! f[vi[<cr>
 onoremap il[ :<c-u>normal! F]vi[<cr>
 onoremap an[ :<c-u>normal! f[va[<cr>
 onoremap al[ :<c-u>normal! F]va[<cr>
+" }}}
 
+" Plugins {{{
   " Nerdtree config {{{
   nnoremap <leader>tn :NERDTreeToggle<cr>
+  let g:NERDTreeShowHidden = 1
+  let g:NERDTreeWinSize = 31
+  let g:NERDTreeShowLineNumbers = 1
+  let g:NERDTreeIgnore = ['\~$', '\.orig$']
   " }}}
 
   " Gundo {{{
@@ -112,12 +117,12 @@ onoremap al[ :<c-u>normal! F]va[<cr>
   " }}}
   
   " Tagbar {{{
-  nnoremap <F8> :TagberToggle<cr>
+  nnoremap <F8> :TagbarToggle<cr>
   let g:tagbar_autofocus = 1
   let g:tagbar_sort = 1
   let g:tagbar_show_visibility = 1
   let g:tagbar_show_linenumbers = 1
-  let g:tagbarshowtag = 1
+  let g:autoshowtag = 1
   " }}}
   
   " CtrlP {{{
@@ -125,6 +130,7 @@ onoremap al[ :<c-u>normal! F]va[<cr>
   let g:ctrlp_switch_buffer = 0
   let g:ctrp_working_path_mode = 0
   let g:ctrlp_user_command = 'ag %s -l --color --hidden -g ""'
+  " }}}
 " }}}
 
 " Vimscript file settings {{{
