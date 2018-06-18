@@ -32,10 +32,21 @@ set shiftwidth=4
 set shiftround
 set sidescroll=5
 set smartindent
+<<<<<<< d385e43b4a72f5fa090e9bc8397269ecc3730b14
 set tabstop=4
 set winfixwidth
 set winfixheight
 " }}}
+||||||| merged common ancestors
+set softtabstop=4
+set tildeop
+set t_Co=256
+set wildmenu
+set softtabstop=4
+set tildeop
+set t_Co=256
+set wildmenu
+set textwidth=120
 
 set statusline=%f  " filename
 set statusline+=%=  " align right
