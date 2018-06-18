@@ -32,21 +32,17 @@ set shiftwidth=4
 set shiftround
 set sidescroll=5
 set smartindent
-<<<<<<< d385e43b4a72f5fa090e9bc8397269ecc3730b14
 set tabstop=4
 set winfixwidth
 set winfixheight
-" }}}
-||||||| merged common ancestors
 set softtabstop=4
-set tildeop
 set t_Co=256
-set wildmenu
-set softtabstop=4
-set tildeop
-set t_Co=256
-set wildmenu
 set textwidth=120
+set wildmenu
+set softtabstop=4
+set tildeop
+set wildmenu
+" }}}
 
 set statusline=%f  " filename
 set statusline+=%=  " align right
@@ -109,7 +105,12 @@ onoremap al[ :<c-u>normal! F]va[<cr>
   nnoremap <leader>u :GundoToggle<cr>
   " }}}
 
-
+  " Solarized {{{
+  set background = "dark"
+  let g:solarized_termcolors = 256
+  colorscheme solarized
+  " }}}
+  
 " }}}
 
 " Vimscript file settings {{{
