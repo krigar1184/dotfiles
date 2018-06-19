@@ -13,6 +13,7 @@ Plug 'Lokaltog/powerline'
 Plug 'sjl/gundo.vim'
 Plug 'rking/ag.vim'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tpope/vim-fugitive'
 call plug#end()
 " }}}
 
@@ -37,7 +38,7 @@ set winfixwidth
 set winfixheight
 set softtabstop=4
 set t_Co=256
-set textwidth=120
+"set textwidth=120
 set wildmenu
 set softtabstop=4
 set tildeop
@@ -49,6 +50,7 @@ set statusline+=%=  " align right
 set statusline+=%y  " filetype
 set statusline+=%m  " modified?
 set statusline+=%r  " readonly?
+set statusline+=%{FugitiveStatusLine()}
 
 
 :filetype on
@@ -95,6 +97,8 @@ onoremap in[ :<c-u>normal! f[vi[<cr>
 onoremap il[ :<c-u>normal! F]vi[<cr>
 onoremap an[ :<c-u>normal! f[va[<cr>
 onoremap al[ :<c-u>normal! F]va[<cr>
+
+nnoremap <leader>b oimport ipdb;ipdb.set_trace(context=10)<esc>
 " }}}
 
 " Plugins {{{
@@ -131,6 +135,12 @@ onoremap al[ :<c-u>normal! F]va[<cr>
   let g:ctrp_working_path_mode = 0
   let g:ctrlp_user_command = 'ag %s -l --color --hidden -g ""'
   " }}}
+
+  " Fugitive
+  nnoremap <leader>gb :Gblame<cr>
+  nnoremap <leader>gs :Gstatus<cr>
+  nnoremap <leader>gg :Ggrep<cr>
+  nnoremap <leader>gl :Glog<cr>
 " }}}
 
 " Vimscript file settings {{{
