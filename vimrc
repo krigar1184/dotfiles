@@ -14,6 +14,7 @@ Plug 'sjl/gundo.vim'
 Plug 'rking/ag.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-fugitive'
+Plug 'python-mode/python-mode'
 call plug#end()
 " }}}
 
@@ -65,7 +66,6 @@ nnoremap <c-h> <c-w>h
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
-nnoremap <c-c> S<esc>j
 
 noremap <leader>_ ddkP
 noremap <leader>- ddp
@@ -134,6 +134,21 @@ nnoremap <leader>b oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:ctrlp_switch_buffer = 0
   let g:ctrp_working_path_mode = 0
   let g:ctrlp_user_command = 'ag %s -l --color --hidden -g ""'
+  " }}}
+
+  " Python-mode {{{
+  let python_highlight_all = 1
+  let g:pymode = 1
+  let g:pymode_warnings = 1
+  let g:pymode_trim_whitespaces = 1
+  let g:pymode_python = 'python3.6'
+  let g:pymode_indent = 1
+  let g:pymode_folding = 0
+  let g:pymode_doc = 1
+  let g:pymode_lint = 0
+  let g:pymode_lint_on_write = 1
+  let g:pymode_list_checkers = ['pyflakes', 'pep8']
+  let g:pymode_breakpoint = 0
   " }}}
 
   " Fugitive
