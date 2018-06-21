@@ -15,6 +15,7 @@ Plug 'rking/ag.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'python-mode/python-mode'
+Plug 'w0rp/ale'
 call plug#end()
 " }}}
 
@@ -73,7 +74,6 @@ noremap <leader>- ddp
 inoremap <leader><c-\> <esc>ddi
 inoremap <leader><c-u> <esc>viwU<esc>i
 nnoremap <leader><c-u> viwU<esc>
-inoremap jk <esc>
 vnoremap <leader>\ U
 
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
@@ -151,11 +151,20 @@ nnoremap <leader>b oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:pymode_breakpoint = 0
   " }}}
 
-  " Fugitive
+  " Fugitive {{{
   nnoremap <leader>gb :Gblame<cr>
   nnoremap <leader>gs :Gstatus<cr>
   nnoremap <leader>gg :Ggrep<cr>
   nnoremap <leader>gl :Glog<cr>
+  " }}}
+
+  " Ale {{{
+  let g:ale_fixers = {
+    \  'python': ['black'],
+    \'vim': ['vint'],
+  \}
+  nnoremap <leader>gt :ALEGoToDefinitionInTab<cr>
+  " }}}
 " }}}
 
 " Vimscript file settings {{{
