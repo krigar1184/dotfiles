@@ -3,19 +3,22 @@ call plug#begin()
 Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'altercation/vim-colors-solarized'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'jistr/vim-nerdtree-tabs'
-Plug 'Lokaltog/powerline'
 Plug 'sjl/gundo.vim'
 Plug 'rking/ag.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-fugitive'
-Plug 'python-mode/python-mode'
 Plug 'w0rp/ale'
+Plug 'plytophogy/vim-virtualenv'
+Plug 'edkolev/tmuxline.vim'
+Plug 'mhinz/vim-signify'
+Plug 'prabirshrestha/vim-lsp'
 call plug#end()
 " }}}
 
@@ -78,6 +81,7 @@ vnoremap <leader>\ U
 
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
+nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
 
 nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
 vnoremap <leader>" <esc>`<i"<esc>`><esc>a"<esc>
@@ -121,7 +125,7 @@ nnoremap <leader>b oimport ipdb;ipdb.set_trace(context=10)<esc>
   " }}}
   
   " Tagbar {{{
-  nnoremap <F8> :TagbarToggle<cr>
+  nnoremap <c-t> :TagbarToggle<cr>
   let g:tagbar_autofocus = 1
   let g:tagbar_sort = 1
   let g:tagbar_show_visibility = 1
@@ -136,21 +140,6 @@ nnoremap <leader>b oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:ctrlp_user_command = 'ag %s -l --color --hidden -g ""'
   " }}}
 
-  " Python-mode {{{
-  let python_highlight_all = 1
-  let g:pymode = 1
-  let g:pymode_warnings = 1
-  let g:pymode_trim_whitespaces = 1
-  let g:pymode_python = 'python3.6'
-  let g:pymode_indent = 1
-  let g:pymode_folding = 0
-  let g:pymode_doc = 1
-  let g:pymode_lint = 0
-  let g:pymode_lint_on_write = 1
-  let g:pymode_list_checkers = ['pyflakes', 'pep8']
-  let g:pymode_breakpoint = 0
-  " }}}
-
   " Fugitive {{{
   nnoremap <leader>gb :Gblame<cr>
   nnoremap <leader>gs :Gstatus<cr>
@@ -158,12 +147,49 @@ nnoremap <leader>b oimport ipdb;ipdb.set_trace(context=10)<esc>
   nnoremap <leader>gl :Glog<cr>
   " }}}
 
+  " LSP {{{
+  if executable('pyls')
+    au User lsp_setup call lsp#register_server({
+      \'name': 'pyls',
+      \'cmd': {server_info->['pyls']},
+      \'whitelist': ['python'],
+      \})
+  endif
+
   " Ale {{{
   let g:ale_fixers = {
-    \  'python': ['black'],
+    \'python': ['black'],
+    \'dockerfile': ['hadolint'],
     \'vim': ['vint'],
+    \'clojure': ['joker'],
+    \'JSON': ['jsonlint'],
+    \'SQL': ['sqlint'],
+    \'XML': ['xmllint'],
   \}
+  let g:ale_lint_on_text_changed = 1
+  let g:ale_lint_on_enter = 1
+  let g:ale_lint_on_filetype_changed = 1
+
   nnoremap <leader>gt :ALEGoToDefinitionInTab<cr>
+  " }}}
+
+  " Signify {{{
+  let g:signify_vcs_list = ['git'] 
+  let g:signify_realtime = 1
+  " }}}
+  
+  " Airline {{{
+  let g:airline_theme = 'solarized'
+  let g:airline#extensions#tabline#enabled = 1
+  let g:airline#extensions#branch#enabled = 1
+  let g:airline#extensions#tabgar#enabled = 1
+  let g:airline#extensions#tagbar#flags = 's'
+  let g:airline#extensions#tmuxline#enabled = 1
+  let g:airline#extensions#nerdtree#enabled = 1
+
+  let g:airline#extensions#ale#enabled = 1
+
+  let g:airlint#init#vim_async = 1
   " }}}
 " }}}
 
