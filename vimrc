@@ -19,6 +19,7 @@ Plug 'plytophogy/vim-virtualenv'
 Plug 'edkolev/tmuxline.vim'
 Plug 'mhinz/vim-signify'
 Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/async.vim'
 call plug#end()
 " }}}
 
@@ -157,8 +158,10 @@ nnoremap <leader>b oimport ipdb;ipdb.set_trace(context=10)<esc>
   endif
 
   " Ale {{{
-  let g:ale_fixers = {
-    \'python': ['black'],
+  let g:ale_linters = {
+    \'python': ['flake8', 'pyls', 'black', 'mypy'],
+    \'bash': ['shell'],
+    \'zsh': ['shell'],
     \'dockerfile': ['hadolint'],
     \'vim': ['vint'],
     \'clojure': ['joker'],
@@ -166,9 +169,14 @@ nnoremap <leader>b oimport ipdb;ipdb.set_trace(context=10)<esc>
     \'SQL': ['sqlint'],
     \'XML': ['xmllint'],
   \}
+  let g:ale_enable = 1
   let g:ale_lint_on_text_changed = 1
   let g:ale_lint_on_enter = 1
   let g:ale_lint_on_filetype_changed = 1
+  let g:ale_open_list = 1
+  let g:ale_list_window_size = 3
+  let g:ale_warn_about_trailing_blank_lines = 1
+  let g:ale_warn_about_trailing_whitespace = 1
 
   nnoremap <leader>gt :ALEGoToDefinitionInTab<cr>
   " }}}
