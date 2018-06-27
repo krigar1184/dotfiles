@@ -104,6 +104,7 @@ onoremap an[ :<c-u>normal! f[va[<cr>
 onoremap al[ :<c-u>normal! F]va[<cr>
 
 nnoremap <leader>b oimport ipdb;ipdb.set_trace(context=10)<esc>
+nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
 " }}}
 
 " Plugins {{{
