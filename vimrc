@@ -84,6 +84,7 @@ vnoremap <leader>\ U
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
+nnoremap <leader>st :!tmux source-file ~/.tmux.conf<cr>
 
 nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
 vnoremap <leader>" <esc>`<i"<esc>`><esc>a"<esc>
