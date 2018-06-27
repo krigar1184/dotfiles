@@ -122,10 +122,9 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
   nnoremap <leader>u :GundoToggle<cr>
   " }}}
 
-  " Solarized {{{
-  set background = "dark"
-  let g:solarized_termcolors = 256
-  colorscheme solarized
+  " Colorscheme {{{
+  " let g:solarized_termcolors = 256
+  colorscheme jellybeans
   " }}}
   
   " Tagbar {{{
@@ -200,7 +199,7 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
   " }}}
   
   " Airline {{{
-  let g:airline_theme = 'solarized'
+  let g:airline_theme = 'jellybeans'
   let g:airline#extensions#tabline#enabled = 1
   let g:airline#extensions#branch#enabled = 1
   let g:airline#extensions#tabgar#enabled = 1
