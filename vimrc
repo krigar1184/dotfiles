@@ -6,6 +6,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'altercation/vim-colors-solarized'
+Plug 'nanotech/jellybeans.vim'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
@@ -83,6 +84,7 @@ vnoremap <leader>\ U
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
+nnoremap <leader>st :!tmux source-file ~/.tmux.conf<cr>
 
 nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
 vnoremap <leader>" <esc>`<i"<esc>`><esc>a"<esc>
@@ -170,7 +172,13 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
     \'SQL': ['sqlint'],
     \'XML': ['xmllint'],
   \}
+  let g:ale_fixers = [
+    \'remove_trailing_lines',
+    \'trim_whitespace',
+  \]
+
   let g:ale_enable = 1
+  let g:ale_fix_on_save = 1
   let g:ale_lint_on_text_changed = 1
   let g:ale_lint_on_enter = 1
   let g:ale_lint_on_filetype_changed = 1
@@ -178,7 +186,11 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:ale_list_window_size = 3
   let g:ale_warn_about_trailing_blank_lines = 1
   let g:ale_warn_about_trailing_whitespace = 1
+  let g:ale_set_highlights = 0
+  let g:ale_set_loclist = 0
+  let g:ale_set_quickfix = 1
 
+  let g:ale_python_flake8_options = '--config=~/.config/flake8'
   nnoremap <leader>gt :ALEGoToDefinitionInTab<cr>
   " }}}
 
