@@ -21,6 +21,7 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'mhinz/vim-signify'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/async.vim'
+Plug 'editorconfig/editorconfig-vim'
 call plug#end()
 " }}}
 
@@ -125,9 +126,9 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
   " Solarized {{{
   set background = "dark"
   let g:solarized_termcolors = 256
-  colorscheme solarized
+  colorscheme jellybeans
   " }}}
-  
+
   " Tagbar {{{
   nnoremap <c-t> :TagbarToggle<cr>
   let g:tagbar_autofocus = 1
@@ -136,7 +137,7 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:tagbar_show_linenumbers = 1
   let g:autoshowtag = 1
   " }}}
-  
+
   " CtrlP {{{
   let g:ctrlp_match_window = "bottom,order:ttb"
   let g:ctrlp_switch_buffer = 0
@@ -179,7 +180,7 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
 
   let g:ale_enable = 1
   let g:ale_fix_on_save = 1
-  let g:ale_lint_on_text_changed = 1
+  let g:ale_lint_on_text_changed = 0
   let g:ale_lint_on_enter = 1
   let g:ale_lint_on_filetype_changed = 1
   let g:ale_open_list = 1
@@ -191,14 +192,15 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:ale_set_quickfix = 1
 
   let g:ale_python_flake8_options = '--config=~/.config/flake8'
-  nnoremap <leader>gt :ALEGoToDefinitionInTab<cr>
+  nnoremap <leader>ag :ALEGoToDefinition<cr>
+  nnoremap <leader>ah :ALEHover<cr>
   " }}}
 
   " Signify {{{
-  let g:signify_vcs_list = ['git'] 
+  let g:signify_vcs_list = ['git']
   let g:signify_realtime = 1
   " }}}
-  
+
   " Airline {{{
   let g:airline_theme = 'solarized'
   let g:airline#extensions#tabline#enabled = 1
@@ -211,6 +213,12 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:airline#extensions#ale#enabled = 1
 
   let g:airlint#init#vim_async = 1
+  " }}}
+
+  " Editorconfig {{{
+
+  " let g:EditorConfig_verbose = 1
+  " let g:EditorConfig_exec_path = '/usr/local/bin/editorconfig'
   " }}}
 " }}}
 
