@@ -22,6 +22,7 @@ Plug 'mhinz/vim-signify'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/async.vim'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'jremmen/vim-ripgrep'
 call plug#end()
 " }}}
 
@@ -213,14 +214,11 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:airline#extensions#ale#enabled = 1
 
   let g:airlint#init#vim_async = 1
-  " }}}
 
-  " Editorconfig {{{
-
-  " let g:EditorConfig_verbose = 1
-  " let g:EditorConfig_exec_path = '/usr/local/bin/editorconfig'
+  " Ripgrep {{{
+  nnoremap <leader>rg :Rg<cr>
+  let g:rg_highlight = 1
   " }}}
-" }}}
 
 " Vimscript file settings {{{
 augroup ft_vim
