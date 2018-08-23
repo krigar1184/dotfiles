@@ -21,6 +21,7 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'mhinz/vim-signify'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/async.vim'
+Plug 'tpope/vim-fireplace'
 call plug#end()
 " }}}
 
