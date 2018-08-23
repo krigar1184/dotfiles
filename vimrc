@@ -189,12 +189,22 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:ale_warn_about_trailing_blank_lines = 1
   let g:ale_warn_about_trailing_whitespace = 1
   let g:ale_set_highlights = 0
-  let g:ale_set_loclist = 0
-  let g:ale_set_quickfix = 1
+  let g:ale_set_loclist = 1
+  let g:ale_set_quickfix = 0
 
   let g:ale_python_flake8_options = '--config=~/.config/flake8'
   nnoremap <leader>ag :ALEGoToDefinition<cr>
   nnoremap <leader>ah :ALEHover<cr>
+
+  autocmd User ALELintPost call s:ale_loclist_limit()  " see https://github.com/w0rp/ale/issues/1164
+
+  function! s:ale_loclist_limit()
+      if exists("b:ale_list_window_size_max")
+          let b:ale_list_window_size = min([len(ale#engine#GetLoclist(bufnr('%'))), b:ale_window_size_max])
+      elseif exists("g:ale_list_window_size_max")
+          let b:ale_list_window_size = min([len(ale#engine#GetLoclist(bufnr('%'))), g:ale_list_window_size])
+      endif
+  endfunction
   " }}}
 
   " Signify {{{
