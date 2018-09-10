@@ -23,6 +23,8 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/async.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'jremmen/vim-ripgrep'
+Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
+Plug 'junegunn/fzf'
 call plug#end()
 " }}}
 
@@ -155,6 +157,17 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
 
   " LSP {{{
   if executable('pyls')
+    let g:LanguageClient_serverCommands = {
+      \ 'rust': ['~/cargo/bin/rustup', 'run', 'stable', 'rls'],
+      \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+      \ 'python': ['/usr/bin/pyls'],
+    \ }
+
+    nnoremap <F2> :LanguageClient_contextMenu()<cr>
+    nnoremap <silent> K :call LanguageClient#textDocument_hover()<cr>
+    nnoremap <silent> gd :call LanguageClient#textDocument_definition()<cr>
+    nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<cr>
+
     au User lsp_setup call lsp#register_server({
       \'name': 'pyls',
       \'cmd': {server_info->['pyls']},
@@ -179,7 +192,7 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
     \'trim_whitespace',
   \]
 
-  let g:ale_enable = 1
+  let g:ale_enable = 0
   let g:ale_fix_on_save = 1
   let g:ale_lint_on_text_changed = 0
   let g:ale_lint_on_enter = 1
@@ -191,6 +204,7 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:ale_set_highlights = 0
   let g:ale_set_loclist = 1
   let g:ale_set_quickfix = 0
+  let g:ale_list_window_vertical = 0
 
   let g:ale_python_flake8_options = '--config=~/.config/flake8'
   nnoremap <leader>ag :ALEGoToDefinition<cr>
