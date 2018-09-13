@@ -24,7 +24,6 @@ Plug 'prabirshrestha/async.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'jremmen/vim-ripgrep'
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
-Plug 'junegunn/fzf'
 call plug#end()
 " }}}
 
@@ -234,14 +233,19 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:airline#extensions#tagbar#flags = 's'
   let g:airline#extensions#tmuxline#enabled = 1
   let g:airline#extensions#nerdtree#enabled = 1
-
   let g:airline#extensions#ale#enabled = 1
-
   let g:airlint#init#vim_async = 1
 
   " Ripgrep {{{
   nnoremap <leader>rg :Rg<cr>
   let g:rg_highlight = 1
+  " }}}
+
+  " ctrlp {{{
+  let g:ctrlp_switch_buffer = 'ET'
+  let g:ctrlp_show_hidden = 1
+  let g:ctrlp_follow_symlinks = 1
+  let g:ctrlp_lazy_update = 1
   " }}}
 
 " Vimscript file settings {{{
