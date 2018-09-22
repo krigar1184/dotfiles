@@ -1,4 +1,3 @@
-" Plugins {{{
 call plug#begin()
 Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
@@ -24,10 +23,10 @@ Plug 'prabirshrestha/async.vim'
 Plug 'tpope/vim-fireplace'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'jremmen/vim-ripgrep'
+Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
+Plug 'chrisbra/vim-diff-enhanced'
 call plug#end()
-" }}}
 
-" Basic settings {{{
 set autoread
 set autowrite
 set expandtab
@@ -48,12 +47,11 @@ set winfixwidth
 set winfixheight
 set softtabstop=4
 set t_Co=256
-"set textwidth=120
+set textwidth=120
 set wildmenu
 set softtabstop=4
 set tildeop
 set wildmenu
-" }}}
 
 set statusline=%f  " filename
 set statusline+=%=  " align right
@@ -65,7 +63,7 @@ set statusline+=%{FugitiveStatusLine()}
 
 :filetype on
 
-" Mappings {{{
+" Mappings
 let mapleader=","
 let maplocalleader="\<space>"
 
@@ -110,51 +108,59 @@ onoremap al[ :<c-u>normal! F]va[<cr>
 
 nnoremap <leader>b oimport ipdb;ipdb.set_trace(context=10)<esc>
 nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
-" }}}
 
-" Plugins {{{
-  " Nerdtree config {{{
+" Plugins
+  " Nerdtree config
   nnoremap <leader>tn :NERDTreeToggle<cr>
   let g:NERDTreeShowHidden = 1
   let g:NERDTreeWinSize = 31
   let g:NERDTreeShowLineNumbers = 1
   let g:NERDTreeIgnore = ['\~$', '\.orig$']
-  " }}}
 
-  " Gundo {{{
+  " Gundo
   nnoremap <leader>u :GundoToggle<cr>
-  " }}}
 
-  " Colorscheme {{{
-  " let g:solarized_termcolors = 256
+  " Solarized
+  set background = "dark"
+  let g:solarized_termcolors = 256
   colorscheme jellybeans
-  " }}}
 
-  " Tagbar {{{
+  " Tagbar
   nnoremap <c-t> :TagbarToggle<cr>
   let g:tagbar_autofocus = 1
   let g:tagbar_sort = 1
   let g:tagbar_show_visibility = 1
   let g:tagbar_show_linenumbers = 1
   let g:autoshowtag = 1
-  " }}}
 
-  " CtrlP {{{
-  let g:ctrlp_match_window = "bottom,order:ttb"
-  let g:ctrlp_switch_buffer = 0
+  " CtrlP
   let g:ctrp_working_path_mode = 0
-  let g:ctrlp_user_command = 'ag %s -l --color --hidden -g ""'
-  " }}}
+  let g:ctrlp_user_command = 'ag -l --hidden --color %s '
+  let g:ctrlp_switch_buffer = 'ET'
+  let g:ctrlp_show_hidden = 1
+  let g:ctrlp_follow_symlinks = 1
+  let g:ctrlp_lazy_update = 1
+  let g:ctrlp_types = ['fil', 'mru', 'buf']
 
-  " Fugitive {{{
+  " Fugitive
   nnoremap <leader>gb :Gblame<cr>
   nnoremap <leader>gs :Gstatus<cr>
   nnoremap <leader>gg :Ggrep<cr>
   nnoremap <leader>gl :Glog<cr>
-  " }}}
 
-  " LSP {{{
+  " LSP
   if executable('pyls')
+    let g:LanguageClient_serverCommands = {
+      \ 'rust': ['~/cargo/bin/rustup', 'run', 'stable', 'rls'],
+      \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+      \ 'python': ['/usr/bin/pyls'],
+    \ }
+
+    nnoremap <F2> :LanguageClient_contextMenu()<cr>
+    nnoremap <silent> K :call LanguageClient#textDocument_hover()<cr>
+    nnoremap <silent> gd :call LanguageClient#textDocument_definition()<cr>
+    nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<cr>
+
     au User lsp_setup call lsp#register_server({
       \'name': 'pyls',
       \'cmd': {server_info->['pyls']},
@@ -162,7 +168,7 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
       \})
   endif
 
-  " Ale {{{
+  " Ale
   let g:ale_linters = {
     \'python': ['flake8', 'pyls', 'black', 'mypy'],
     \'bash': ['shell'],
@@ -179,7 +185,7 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
     \'trim_whitespace',
   \]
 
-  let g:ale_enable = 1
+  let g:ale_enable = 0
   let g:ale_fix_on_save = 1
   let g:ale_lint_on_text_changed = 0
   let g:ale_lint_on_enter = 1
@@ -191,6 +197,7 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:ale_set_highlights = 0
   let g:ale_set_loclist = 1
   let g:ale_set_quickfix = 0
+  let g:ale_list_window_vertical = 0
 
   let g:ale_python_flake8_options = '--config=~/.config/flake8'
   nnoremap <leader>ag :ALEGoToDefinition<cr>
@@ -205,12 +212,10 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
           let b:ale_list_window_size = min([len(ale#engine#GetLoclist(bufnr('%'))), g:ale_list_window_size])
       endif
   endfunction
-  " }}}
 
-  " Signify {{{
+  " Signify
   let g:signify_vcs_list = ['git']
   let g:signify_realtime = 1
-  " }}}
 
   " Airline {{{
   let g:airline_theme = 'jellybeans'
@@ -220,24 +225,25 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:airline#extensions#tagbar#flags = 's'
   let g:airline#extensions#tmuxline#enabled = 1
   let g:airline#extensions#nerdtree#enabled = 1
-
   let g:airline#extensions#ale#enabled = 1
-
   let g:airlint#init#vim_async = 1
 
-  " Ripgrep {{{
+  " Ripgrep
   nnoremap <leader>rg :Rg<cr>
   let g:rg_highlight = 1
-  " }}}
 
-" Vimscript file settings {{{
+  " Diff-enhanced
+  if &diff
+      let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
+  endif
+
+" Vimscript file settings
 augroup ft_vim
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
 augroup END
-" }}}
 
-" Python file settings {{{
+" Python file settings
 augroup ft_python
     autocmd FileType python nnoremap <buffer> <localleader>c I# <esc>
     autocmd FileType python vnoremap <buffer> <localleader>dc <esc>`<idict(<esc>`>a)<esc>
@@ -245,20 +251,17 @@ augroup ft_python
     autocmd FileType python :iabbrev <buffer> iff if:<left>
     autocmd FileType python :iabbrev <buffer> rt <cr>return<space>
 augroup END
-" }}}
 
-" Markdown file settings {{{
+" Markdown file settings
 augroup ft_markdown
     autocmd FileType markdown onoremap <buffer> ih :<c-u>execute "normal! ?^[(==)\|(--)]\\+$\r:nohlsearch\rkvg_"<cr>
     autocmd FileType markdown onoremap <buffer> ah :<c-u>execute "normal! ?^[(==)\|(--)]\\+$\r:nohlsearch\rg_vk0"<cr>
     autocmd FileType markdown onoremap <buffer> in@ :<c-u>execute "normal! /\\<\\w\\+@\\w\\+\\.\\w\\+\\>\r:nohlsearch\rviW"<cr>
     autocmd FileType markdown onoremap <buffer> an@ :<c-u>execute "normal! /\\<\\w\\+@\\w\\+\\.\\w\\+\\>\r:nohlsearch\rvaW"<cr>
 augroup END
-" }}}
 
-" Ruby file settings {{{
+" Ruby file settings
 augroup ft_ruby
     set tabstop=2
     set shiftwidth=2
 augroup END
-" }}}
