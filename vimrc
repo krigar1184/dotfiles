@@ -22,6 +22,8 @@ Plug 'mhinz/vim-signify'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/async.vim'
 Plug 'tpope/vim-fireplace'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'jremmen/vim-ripgrep'
 call plug#end()
 " }}}
 
@@ -127,7 +129,7 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
   " let g:solarized_termcolors = 256
   colorscheme jellybeans
   " }}}
-  
+
   " Tagbar {{{
   nnoremap <c-t> :TagbarToggle<cr>
   let g:tagbar_autofocus = 1
@@ -136,7 +138,7 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:tagbar_show_linenumbers = 1
   let g:autoshowtag = 1
   " }}}
-  
+
   " CtrlP {{{
   let g:ctrlp_match_window = "bottom,order:ttb"
   let g:ctrlp_switch_buffer = 0
@@ -179,7 +181,7 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
 
   let g:ale_enable = 1
   let g:ale_fix_on_save = 1
-  let g:ale_lint_on_text_changed = 1
+  let g:ale_lint_on_text_changed = 0
   let g:ale_lint_on_enter = 1
   let g:ale_lint_on_filetype_changed = 1
   let g:ale_open_list = 1
@@ -187,18 +189,29 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:ale_warn_about_trailing_blank_lines = 1
   let g:ale_warn_about_trailing_whitespace = 1
   let g:ale_set_highlights = 0
-  let g:ale_set_loclist = 0
-  let g:ale_set_quickfix = 1
+  let g:ale_set_loclist = 1
+  let g:ale_set_quickfix = 0
 
   let g:ale_python_flake8_options = '--config=~/.config/flake8'
-  nnoremap <leader>gt :ALEGoToDefinitionInTab<cr>
+  nnoremap <leader>ag :ALEGoToDefinition<cr>
+  nnoremap <leader>ah :ALEHover<cr>
+
+  autocmd User ALELintPost call s:ale_loclist_limit()  " see https://github.com/w0rp/ale/issues/1164
+
+  function! s:ale_loclist_limit()
+      if exists("b:ale_list_window_size_max")
+          let b:ale_list_window_size = min([len(ale#engine#GetLoclist(bufnr('%'))), b:ale_window_size_max])
+      elseif exists("g:ale_list_window_size_max")
+          let b:ale_list_window_size = min([len(ale#engine#GetLoclist(bufnr('%'))), g:ale_list_window_size])
+      endif
+  endfunction
   " }}}
 
   " Signify {{{
-  let g:signify_vcs_list = ['git'] 
+  let g:signify_vcs_list = ['git']
   let g:signify_realtime = 1
   " }}}
-  
+
   " Airline {{{
   let g:airline_theme = 'jellybeans'
   let g:airline#extensions#tabline#enabled = 1
@@ -211,8 +224,11 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:airline#extensions#ale#enabled = 1
 
   let g:airlint#init#vim_async = 1
+
+  " Ripgrep {{{
+  nnoremap <leader>rg :Rg<cr>
+  let g:rg_highlight = 1
   " }}}
-" }}}
 
 " Vimscript file settings {{{
 augroup ft_vim
