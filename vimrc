@@ -24,6 +24,7 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'jremmen/vim-ripgrep'
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
 Plug 'chrisbra/vim-diff-enhanced'
+Plug 'dhruvasagar/vim-buffer-history'
 call plug#end()
 
 set autoread
@@ -184,7 +185,7 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
     \'trim_whitespace',
   \]
 
-  let g:ale_enable = 0
+  let g:ale_enable = 1
   let g:ale_fix_on_save = 1
   let g:ale_lint_on_text_changed = 0
   let g:ale_lint_on_enter = 1
@@ -197,8 +198,8 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:ale_set_loclist = 1
   let g:ale_set_quickfix = 0
   let g:ale_list_window_vertical = 0
+  let g:ale_python_flake8_options = '--config=~/.flake8'
 
-  let g:ale_python_flake8_options = '--config=~/.config/flake8'
   nnoremap <leader>ag :ALEGoToDefinition<cr>
   nnoremap <leader>ah :ALEHover<cr>
 
@@ -235,6 +236,11 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
   if &diff
       let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
   endif
+
+  " Buffer history list
+  nnoremap <leader>hh :BufferHistoryList<cr>
+  nnoremap <leader>hb :BufferHistoryBack<cr>
+  nnoremap <leader>hf :BufferHistoryForward<cr>
 
 " Vimscript file settings
 augroup ft_vim
