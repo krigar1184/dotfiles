@@ -20,6 +20,7 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'mhinz/vim-signify'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/async.vim'
+Plug 'tpope/vim-fireplace'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'jremmen/vim-ripgrep'
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
@@ -217,8 +218,8 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:signify_vcs_list = ['git']
   let g:signify_realtime = 1
 
-  " Airline
-  let g:airline_theme = 'solarized'
+  " Airline {{{
+  let g:airline_theme = 'jellybeans'
   let g:airline#extensions#tabline#enabled = 1
   let g:airline#extensions#branch#enabled = 1
   let g:airline#extensions#tabgar#enabled = 1
