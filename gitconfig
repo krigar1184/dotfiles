@@ -39,6 +39,7 @@
 	st = status
 	df = diff
 	nn = annotate
+    lg = log --oneline
 
 [merge]
     tool = vimdiff
@@ -52,3 +53,6 @@
 
 [rebase]
     autoStash = true
+
+[log]
+    decorate = full
