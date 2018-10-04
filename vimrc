@@ -48,7 +48,7 @@ set winfixwidth
 set winfixheight
 set softtabstop=4
 set t_Co=256
-set textwidth=120
+set textwidth=0
 set wildmenu
 set softtabstop=4
 set tildeop
@@ -60,7 +60,6 @@ set statusline+=%y  " filetype
 set statusline+=%m  " modified?
 set statusline+=%r  " readonly?
 set statusline+=%{FugitiveStatusLine()}
-
 
 :filetype on
 
@@ -110,8 +109,8 @@ onoremap il[ :<c-u>normal! F]vi[<cr>
 onoremap an[ :<c-u>normal! f[va[<cr>
 onoremap al[ :<c-u>normal! F]va[<cr>
 
-nnoremap <leader>b oimport ipdb;ipdb.set_trace(context=10)<esc>
-nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
+nnoremap <leader>d oimport ipdb;ipdb.set_trace(context=10)<esc>
+nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
 
 " Plugins
   " Nerdtree config
@@ -231,6 +230,8 @@ nnoremap <leader>B Oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:airline#extensions#nerdtree#enabled = 1
   let g:airline#extensions#ale#enabled = 1
   let g:airlint#init#vim_async = 1
+  let g:airline_powerline_fonts = 1
+  let g:airline_left_sep = "\ue0b0"
 
   " Ripgrep
   nnoremap <leader>rg :Rg<cr>
