@@ -42,7 +42,8 @@
     lg = log --oneline
 
 [merge]
-    tool = vimdiff
+    # tool = vimdiff
+    tool = nvimdiff
     conflictstyle = diff3
     log = true
     verbosity = 5
@@ -56,3 +57,9 @@
 
 [log]
     decorate = full
+
+[diff]
+    tool = nvimdiff
+
+[difftool "nvimdiff"]
+    cmd = "nvim -d -u ~/.vimrc \"$LOCAL\" \"$REMOTE\" \"$MERGED\""

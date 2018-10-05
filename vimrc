@@ -12,9 +12,8 @@ Plug 'tpope/vim-repeat'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'sjl/gundo.vim'
 Plug 'rking/ag.vim'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-fugitive'
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
 Plug 'plytophogy/vim-virtualenv'
 Plug 'edkolev/tmuxline.vim'
 Plug 'mhinz/vim-signify'
@@ -23,9 +22,10 @@ Plug 'prabirshrestha/async.vim'
 Plug 'tpope/vim-fireplace'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'jremmen/vim-ripgrep'
-Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
+Plug 'autozimu/LanguageClient-neovim', { 'rev': 'next',  'do': 'bash install.sh' }
 Plug 'chrisbra/vim-diff-enhanced'
-Plug 'dhruvasagar/vim-buffer-history'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'install --all' }
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
 set autoread
@@ -136,15 +136,6 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:tagbar_show_linenumbers = 1
   let g:autoshowtag = 1
 
-  " CtrlP
-  let g:ctrp_working_path_mode = 0
-  let g:ctrlp_user_command = 'ag -l --hidden --color %s '
-  let g:ctrlp_switch_buffer = 'ET'
-  let g:ctrlp_show_hidden = 1
-  let g:ctrlp_follow_symlinks = 1
-  let g:ctrlp_lazy_update = 1
-  let g:ctrlp_types = ['fil', 'mru', 'buf']
-
   " Fugitive
   nnoremap <leader>gb :Gblame<cr>
   nnoremap <leader>gs :Gstatus<cr>
@@ -164,6 +155,8 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
     nnoremap <silent> gd :call LanguageClient#textDocument_definition()<cr>
     nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<cr>
 
+    set omnifunc=LanguageClient#complete
+
     au User lsp_setup call lsp#register_server({
       \'name': 'pyls',
       \'cmd': {server_info->['pyls']},
@@ -173,7 +166,7 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
 
   " Ale
   let g:ale_linters = {
-    \'python': ['flake8', 'pyls', 'black', 'mypy'],
+    \'python': ['pyls'],
     \'bash': ['shell'],
     \'zsh': ['shell'],
     \'dockerfile': ['hadolint'],
@@ -188,9 +181,9 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
     \'trim_whitespace',
   \]
 
-  let g:ale_enable = 1
+  let g:ale_enable = 0
   let g:ale_fix_on_save = 1
-  let g:ale_lint_on_text_changed = 0
+  let g:ale_lint_on_text_changed = 1
   let g:ale_lint_on_enter = 1
   let g:ale_lint_on_filetype_changed = 1
   let g:ale_open_list = 1
@@ -201,12 +194,9 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:ale_set_loclist = 1
   let g:ale_set_quickfix = 0
   let g:ale_list_window_vertical = 0
-  let g:ale_python_flake8_options = '--config=~/.flake8'
+  let g:ale_python_flake8_options = '--ignore=E501'
 
-  nnoremap <leader>ag :ALEGoToDefinition<cr>
-  nnoremap <leader>ah :ALEHover<cr>
-
-  autocmd User ALELintPost call s:ale_loclist_limit()  " see https://github.com/w0rp/ale/issues/1164
+  " autocmd User ALELintPost call s:ale_loclist_limit()  " see https://github.com/w0rp/ale/issues/1164
 
   function! s:ale_loclist_limit()
       if exists("b:ale_list_window_size_max")
@@ -243,9 +233,8 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   endif
 
   " Buffer history list
-  nnoremap <leader>hh :BufferHistoryList<cr>
-  nnoremap <leader>hb :BufferHistoryBack<cr>
-  nnoremap <leader>hf :BufferHistoryForward<cr>
+  nnoremap <leader>hh :History<cr>
+  nnoremap <c-p> :Files<cr>
 
 " Vimscript file settings
 augroup ft_vim
