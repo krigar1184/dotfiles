@@ -21,7 +21,7 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/async.vim'
 Plug 'tpope/vim-fireplace'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next',  'do': 'bash install.sh' }
+Plug 'autozimu/LanguageClient-neovim', { 'rev': 'next',  'do': 'bash install.sh' }
 Plug 'chrisbra/vim-diff-enhanced'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'install --all' }
 Plug 'junegunn/fzf.vim'
@@ -245,11 +245,9 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   endif
 
   " FZF
+  let g:fzf_buffers_jump = 1
   nnoremap <c-f> :History<cr>
   nnoremap <c-p> :Files<cr>
-  nnoremap <c-g> :Rg<cr>
-
-  let g:fzf_buffers_jump = 1
   nnoremap <c-g> :Rg<cr>
   nnoremap <c-b> :Buffers<cr>
 
@@ -261,6 +259,10 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   nnoremap <silent> t<C-s> :TestSuite<cr>
   nnoremap <silent> t<C-l> :TestLast<cr>
   nnoremap <silent> t<C-g> :TestVisit<cr>
+  nnoremap <c-g> :Rg<cr>
+  nnoremap <c-b> :Buffers<cr>
+
+  let g:fzf_buffers_jump = 1
 
 " Vimscript file settings
 augroup ft_vim
