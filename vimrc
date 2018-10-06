@@ -21,10 +21,11 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/async.vim'
 Plug 'tpope/vim-fireplace'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'autozimu/LanguageClient-neovim', { 'rev': 'next',  'do': 'bash install.sh' }
+Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next',  'do': 'bash install.sh' }
 Plug 'chrisbra/vim-diff-enhanced'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'Shougo/deoplete.nvim'
 call plug#end()
 
 set autoread
@@ -61,6 +62,7 @@ set statusline+=%r  " readonly?
 set statusline+=%{FugitiveStatusLine()}
 
 :filetype on
+:filetype plugin on
 
 " Mappings
 let mapleader=","
@@ -142,11 +144,12 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   nnoremap <leader>gl :Glog<cr>
 
   " LSP
+  let g:deoplete#enable_at_startup = 1
+
   if executable('pyls')
     let g:LanguageClient_serverCommands = {
       \ 'rust': ['~/cargo/bin/rustup', 'run', 'stable', 'rls'],
-      \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
-      \ 'python': ['/usr/bin/pyls'],
+      \ 'python': ['pyls'],
     \ }
 
     nnoremap <F2> :LanguageClient_contextMenu()<cr>
@@ -155,6 +158,8 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
     nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<cr>
 
     set omnifunc=LanguageClient#complete
+
+    let g:LanguageClient_selectionUI = 'fzf'
 
     au User lsp_setup call lsp#register_server({
       \'name': 'pyls',
@@ -195,7 +200,7 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:ale_list_window_vertical = 0
   let g:ale_python_flake8_options = '--ignore=E501'
 
-  " autocmd User ALELintPost call s:ale_loclist_limit()  " see https://github.com/w0rp/ale/issues/1164
+  autocmd User ALELintPost call s:ale_loclist_limit()  " see https://github.com/w0rp/ale/issues/1164
 
   function! s:ale_loclist_limit()
       if exists("b:ale_list_window_size_max")
