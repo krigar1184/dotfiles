@@ -237,6 +237,10 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   nnoremap <c-g> :Rg<cr>
 
   let g:fzf_buffers_jump = 1
+  nnoremap <c-g> :Rg<cr>
+  nnoremap <c-b> :Buffers<cr>
+
+  let g:fzf_buffers_jump = 1
 
 " Vimscript file settings
 augroup ft_vim
