@@ -21,7 +21,6 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/async.vim'
 Plug 'tpope/vim-fireplace'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'jremmen/vim-ripgrep'
 Plug 'autozimu/LanguageClient-neovim', { 'rev': 'next',  'do': 'bash install.sh' }
 Plug 'chrisbra/vim-diff-enhanced'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'install --all' }
@@ -232,9 +231,12 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
       let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
   endif
 
-  " Buffer history list
-  nnoremap <leader>hh :History<cr>
+  " FZF
+  nnoremap <c-f> :History<cr>
   nnoremap <c-p> :Files<cr>
+  nnoremap <c-g> :Rg<cr>
+
+  let g:fzf_buffers_jump = 1
 
 " Vimscript file settings
 augroup ft_vim
