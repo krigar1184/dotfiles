@@ -13,7 +13,7 @@ Plug 'jistr/vim-nerdtree-tabs'
 Plug 'sjl/gundo.vim'
 Plug 'rking/ag.vim'
 Plug 'tpope/vim-fugitive'
-" Plug 'w0rp/ale'
+Plug 'w0rp/ale'
 Plug 'plytophogy/vim-virtualenv'
 Plug 'edkolev/tmuxline.vim'
 Plug 'mhinz/vim-signify'
@@ -21,37 +21,40 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/async.vim'
 Plug 'tpope/vim-fireplace'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'autozimu/LanguageClient-neovim', { 'rev': 'next',  'do': 'bash install.sh' }
+Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next',  'do': 'bash install.sh' }
 Plug 'chrisbra/vim-diff-enhanced'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'Shougo/deoplete.nvim'
+Plug 'zchee/deoplete-jedi'
 call plug#end()
 
 set autoread
 set autowrite
+set clipboard+=unnamedplus
 set expandtab
 set hlsearch
 set incsearch
+set laststatus=2
+set lazyredraw
 set listchars+=precedes:<,extends:>
 set nocompatible
 set nowrap
 set number
-set laststatus=2
-set lazyredraw
+set previewheight=5
 set shiftwidth=4
 set shiftround
 set sidescroll=5
 set smartindent
-set tabstop=4
-set winfixwidth
-set winfixheight
 set softtabstop=4
+set tabstop=4
 set t_Co=256
 set textwidth=0
-set wildmenu
-set softtabstop=4
 set tildeop
 set wildmenu
+set winfixwidth
+set winfixheight
+
 
 set statusline=%f  " filename
 set statusline+=%=  " align right
@@ -61,6 +64,7 @@ set statusline+=%r  " readonly?
 set statusline+=%{FugitiveStatusLine()}
 
 :filetype on
+:filetype plugin on
 
 " Mappings
 let mapleader=","
@@ -142,11 +146,12 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   nnoremap <leader>gl :Glog<cr>
 
   " LSP
+  let g:deoplete#enable_at_startup = 1
+
   if executable('pyls')
     let g:LanguageClient_serverCommands = {
       \ 'rust': ['~/cargo/bin/rustup', 'run', 'stable', 'rls'],
-      \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
-      \ 'python': ['/usr/bin/pyls'],
+      \ 'python': ['pyls'],
     \ }
 
     nnoremap <F2> :LanguageClient_contextMenu()<cr>
@@ -155,6 +160,8 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
     nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<cr>
 
     set omnifunc=LanguageClient#complete
+
+    let g:LanguageClient_selectionUI = 'fzf'
 
     au User lsp_setup call lsp#register_server({
       \'name': 'pyls',
@@ -180,22 +187,22 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
     \'trim_whitespace',
   \]
 
-  let g:ale_enable = 0
-  let g:ale_fix_on_save = 1
+  let g:ale_enable = 1
+  let g:ale_fix_on_save = 0
   let g:ale_lint_on_text_changed = 1
   let g:ale_lint_on_enter = 1
   let g:ale_lint_on_filetype_changed = 1
-  let g:ale_open_list = 1
+  let g:ale_open_list = 0
   let g:ale_list_window_size = 3
   let g:ale_warn_about_trailing_blank_lines = 1
   let g:ale_warn_about_trailing_whitespace = 1
   let g:ale_set_highlights = 0
-  let g:ale_set_loclist = 1
+  let g:ale_set_loclist = 0
   let g:ale_set_quickfix = 0
   let g:ale_list_window_vertical = 0
   let g:ale_python_flake8_options = '--ignore=E501'
 
-  " autocmd User ALELintPost call s:ale_loclist_limit()  " see https://github.com/w0rp/ale/issues/1164
+  autocmd User ALELintPost call s:ale_loclist_limit()  " see https://github.com/w0rp/ale/issues/1164
 
   function! s:ale_loclist_limit()
       if exists("b:ale_list_window_size_max")
@@ -235,6 +242,10 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   nnoremap <c-f> :History<cr>
   nnoremap <c-p> :Files<cr>
   nnoremap <c-g> :Rg<cr>
+
+  let g:fzf_buffers_jump = 1
+  nnoremap <c-g> :Rg<cr>
+  nnoremap <c-b> :Buffers<cr>
 
   let g:fzf_buffers_jump = 1
 
