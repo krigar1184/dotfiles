@@ -27,6 +27,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'Shougo/deoplete.nvim'
 Plug 'zchee/deoplete-jedi'
+Plug 'rust-lang/rust.vim'
 call plug#end()
 
 set autoread
@@ -246,8 +247,6 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:fzf_buffers_jump = 1
   nnoremap <c-g> :Rg<cr>
   nnoremap <c-b> :Buffers<cr>
-
-  let g:fzf_buffers_jump = 1
 
 " Vimscript file settings
 augroup ft_vim
