@@ -28,6 +28,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'Shougo/deoplete.nvim'
 Plug 'zchee/deoplete-jedi'
 Plug 'rust-lang/rust.vim'
+Plug 'janko-m/vim-test'
 call plug#end()
 
 set autoread
@@ -160,9 +161,13 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
     nnoremap <silent> gd :call LanguageClient#textDocument_definition()<cr>
     nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<cr>
 
-    set omnifunc=LanguageClient#complete
+    "set omnifunc=LanguageClient#complete
 
     let g:LanguageClient_selectionUI = 'fzf'
+    let g:LanguageClient_diagnosticsEnable = 1
+    let g:LanguageClient_diagnosticsList = 'Quickfix'
+    let g:LanguageClient_windowLogMessageLevel = 'Error'
+    let g:LanguageClient_fzfContextMenu = 1
 
     au User lsp_setup call lsp#register_server({
       \'name': 'pyls',
@@ -193,13 +198,13 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:ale_lint_on_text_changed = 1
   let g:ale_lint_on_enter = 1
   let g:ale_lint_on_filetype_changed = 1
-  let g:ale_open_list = 0
+  let g:ale_open_list = 1
   let g:ale_list_window_size = 3
   let g:ale_warn_about_trailing_blank_lines = 1
   let g:ale_warn_about_trailing_whitespace = 1
   let g:ale_set_highlights = 0
   let g:ale_set_loclist = 0
-  let g:ale_set_quickfix = 0
+  let g:ale_set_quickfix = 1
   let g:ale_list_window_vertical = 0
   let g:ale_python_flake8_options = '--ignore=E501'
 
@@ -248,6 +253,15 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   nnoremap <c-g> :Rg<cr>
   nnoremap <c-b> :Buffers<cr>
 
+  " Vim-test
+  let test#strategy = "asyncrun"
+
+  nnoremap <silent> t<C-n> :TestNearest<cr>
+  nnoremap <silent> t<C-f> :TestFile<cr>
+  nnoremap <silent> t<C-s> :TestSuite<cr>
+  nnoremap <silent> t<C-l> :TestLast<cr>
+  nnoremap <silent> t<C-g> :TestVisit<cr>
+
 " Vimscript file settings
 augroup ft_vim
     autocmd!
@@ -260,7 +274,6 @@ augroup ft_python
     autocmd FileType python vnoremap <buffer> <localleader>dc <esc>`<idict(<esc>`>a)<esc>
     autocmd FileType python vnoremap <buffer> <localleader>lc <esc>`<ilist(<esc>`>a)<esc>
     autocmd FileType python :iabbrev <buffer> iff if:<left>
-    autocmd FileType python :iabbrev <buffer> rt <cr>return<space>
 augroup END
 
 " Markdown file settings
