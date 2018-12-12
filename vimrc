@@ -195,10 +195,10 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
 
   let g:ale_enable = 1
   let g:ale_fix_on_save = 0
-  let g:ale_lint_on_text_changed = 1
+  let g:ale_lint_on_text_changed = 0
   let g:ale_lint_on_enter = 1
   let g:ale_lint_on_filetype_changed = 1
-  let g:ale_open_list = 1
+  let g:ale_open_list = 0
   let g:ale_list_window_size = 3
   let g:ale_warn_about_trailing_blank_lines = 1
   let g:ale_warn_about_trailing_whitespace = 1

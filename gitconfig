@@ -1,8 +1,8 @@
 # vim:ft=gitconfig
 
 [user]
-    name = Nikita Antonenkov
-    email = krigar1184@gmail.com
+	name = Nikita Antonenkov
+	email = krigar1184@gmail.com
 
 [credential]
     helper = /usr/share/doc/git-core-doc/contrib/credential/gnome-keyring/git-credential-gnome-keyring
