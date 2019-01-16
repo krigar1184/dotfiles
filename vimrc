@@ -53,6 +53,7 @@ set tabstop=4
 set t_Co=256
 set textwidth=0
 set tildeop
+set undofile
 set wildmenu
 set winfixwidth
 set winfixheight
