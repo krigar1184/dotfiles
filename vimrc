@@ -21,11 +21,11 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/async.vim'
 Plug 'tpope/vim-fireplace'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'autozimu/LanguageClient-neovim', { 'rev': 'next',  'do': 'bash install.sh' }
+Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next',  'do': 'bash install.sh' }
 Plug 'chrisbra/vim-diff-enhanced'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'Shougo/deoplete.nvim'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-jedi'
 Plug 'rust-lang/rust.vim'
 Plug 'janko-m/vim-test'
@@ -47,6 +47,7 @@ set previewheight=5
 set shiftwidth=4
 set shiftround
 set sidescroll=5
+set signcolumn=yes
 set smartindent
 set softtabstop=4
 set tabstop=4
@@ -151,31 +152,38 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   " LSP
   let g:deoplete#enable_at_startup = 1
 
-  if executable('pyls')
-    let g:LanguageClient_serverCommands = {
-      \ 'rust': ['~/cargo/bin/rustup', 'run', 'stable', 'rls'],
-      \ 'python': ['pyls'],
-    \ }
+  let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+    \ 'python': ['pyls'],
+  \ }
 
-    nnoremap <F2> :LanguageClient_contextMenu()<cr>
-    nnoremap <silent> K :call LanguageClient#textDocument_hover()<cr>
-    nnoremap <silent> gd :call LanguageClient#textDocument_definition()<cr>
-    nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<cr>
+  nnoremap <F2> :LanguageClient_contextMenu()<cr>
+  nnoremap <silent> K :call LanguageClient#textDocument_hover()<cr>
+  nnoremap <silent> gd :call LanguageClient#textDocument_definition()<cr>
+  nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<cr>
 
-    "set omnifunc=LanguageClient#complete
+  set omnifunc=LanguageClient#complete
 
-    let g:LanguageClient_selectionUI = 'fzf'
-    let g:LanguageClient_diagnosticsEnable = 1
-    let g:LanguageClient_diagnosticsList = 'Quickfix'
-    let g:LanguageClient_windowLogMessageLevel = 'Error'
-    let g:LanguageClient_fzfContextMenu = 1
+  let $RUST_BACKTRACE=1
+  let g:LanguageClient_loggingLevel = 'INFO'
+  let g:LanguageClient_loggingFile = expand('~/.local/share/nvim/LanguageClient.log')
+  let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
+  let g:LanguageClient_selectionUI = 'fzf'
+  let g:LanguageClient_diagnosticsEnable = 1
+  let g:LanguageClient_diagnosticsList = 'Quickfix'
+  let g:LanguageClient_windowLogMessageLevel = 'Error'
+  let g:LanguageClient_fzfContextMenu = 1
 
-    au User lsp_setup call lsp#register_server({
-      \'name': 'pyls',
-      \'cmd': {server_info->['pyls']},
-      \'whitelist': ['python'],
-      \})
-  endif
+  augroup filetype_rust
+    autocmd!
+    autocmd BufReadPost *.rs setlocal filetype=rust
+  augroup END
+
+  au User lsp_setup call lsp#register_server({
+    \'name': 'pyls',
+    \'cmd': {server_info->['pyls']},
+    \'whitelist': ['python'],
+    \})
 
   " Ale
   let g:ale_linters = {
