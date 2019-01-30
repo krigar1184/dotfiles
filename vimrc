@@ -17,20 +17,23 @@ Plug 'w0rp/ale'
 Plug 'plytophogy/vim-virtualenv'
 Plug 'edkolev/tmuxline.vim'
 Plug 'mhinz/vim-signify'
-Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/async.vim'
 Plug 'tpope/vim-fireplace'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'autozimu/LanguageClient-neovim', { 'rev': 'next',  'do': 'bash install.sh' }
+Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next',  'do': 'bash install.sh' }
 Plug 'chrisbra/vim-diff-enhanced'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'Shougo/deoplete.nvim'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-jedi'
 Plug 'rust-lang/rust.vim'
 Plug 'janko-m/vim-test'
 call plug#end()
 
+let g:python_host_prog=expand('~/.pyenv/versions/neovim2/bin/python')
+let g:python3_host_prog=expand('~/.pyenv/versions/neovim3/bin/python')
+
+set runtimepath+=expand('~/.config/nvim/plugged/LanguageClient-neovim')
 set autoread
 set autowrite
 set clipboard+=unnamedplus
@@ -47,6 +50,7 @@ set previewheight=5
 set shiftwidth=4
 set shiftround
 set sidescroll=5
+set signcolumn=yes
 set smartindent
 set softtabstop=4
 set tabstop=4
@@ -151,35 +155,43 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   " LSP
   let g:deoplete#enable_at_startup = 1
 
-  if executable('pyls')
-    let g:LanguageClient_serverCommands = {
-      \ 'rust': ['~/cargo/bin/rustup', 'run', 'stable', 'rls'],
-      \ 'python': ['pyls'],
-    \ }
+  let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+    \ 'python': ['pyls'],
+  \ }
 
-    nnoremap <F2> :LanguageClient_contextMenu()<cr>
-    nnoremap <silent> K :call LanguageClient#textDocument_hover()<cr>
-    nnoremap <silent> gd :call LanguageClient#textDocument_definition()<cr>
-    nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<cr>
+  nnoremap <silent> <F3> :LanguageClient_contextMenu()<cr>
+  nnoremap <silent> K :call LanguageClient#textDocument_hover()<cr>
+  nnoremap <silent> gd :call LanguageClient#textDocument_definition()<cr>
+  nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<cr>
+  nnoremap <silent> fu :call LanguageClient#textDocument_references()<cr>
 
-    "set omnifunc=LanguageClient#complete
+  set omnifunc=LanguageClient#complete
 
-    let g:LanguageClient_selectionUI = 'fzf'
-    let g:LanguageClient_diagnosticsEnable = 1
-    let g:LanguageClient_diagnosticsList = 'Quickfix'
-    let g:LanguageClient_windowLogMessageLevel = 'Error'
-    let g:LanguageClient_fzfContextMenu = 1
+  let $RUST_BACKTRACE=0
+  let g:LanguageClient_loggingLevel = 'INFO'
+  let g:LanguageClient_loggingFile = expand('~/.local/share/nvim/LanguageClient.log')
+  let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
+  let g:LanguageClient_selectionUI = 'fzf'
+  let g:LanguageClient_diagnosticsEnable = 1
+  let g:LanguageClient_diagnosticsList = 'Quickfix'
+  let g:LanguageClient_windowLogMessageLevel = 'Error'
+  let g:LanguageClient_fzfContextMenu = 1
 
-    au User lsp_setup call lsp#register_server({
-      \'name': 'pyls',
-      \'cmd': {server_info->['pyls']},
-      \'whitelist': ['python'],
-      \})
-  endif
+  augroup filetype_rust
+    autocmd!
+    autocmd BufReadPost *.rs setlocal filetype=rust
+  augroup END
+
+  au User lsp_setup call lsp#register_server({
+    \'name': 'pyls',
+    \'cmd': {server_info->['pyls']},
+    \'whitelist': ['python'],
+    \})
 
   " Ale
   let g:ale_linters = {
-    \'python': ['pyls'],
+    \'python': ['pyls', 'pylint'],
     \'bash': ['shell'],
     \'zsh': ['shell'],
     \'dockerfile': ['hadolint'],
@@ -194,20 +206,22 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
     \'trim_whitespace',
   \]
 
-  let g:ale_enable = 1
+  let g:ale_enabled = 1
   let g:ale_fix_on_save = 0
-  let g:ale_lint_on_text_changed = 0
+  let g:ale_lint_on_text_changed = 1
   let g:ale_lint_on_enter = 1
   let g:ale_lint_on_filetype_changed = 1
-  let g:ale_open_list = 0
+  let g:ale_open_list = 1
   let g:ale_list_window_size = 3
   let g:ale_warn_about_trailing_blank_lines = 1
   let g:ale_warn_about_trailing_whitespace = 1
   let g:ale_set_highlights = 0
-  let g:ale_set_loclist = 0
+  let g:ale_set_loclist = 1
   let g:ale_set_quickfix = 1
   let g:ale_list_window_vertical = 0
   let g:ale_python_flake8_options = '--ignore=E501'
+  let g:ale_linters_explicit = 1
+  let g:ale_sign_column_always = 1
 
   autocmd User ALELintPost call s:ale_loclist_limit()  " see https://github.com/w0rp/ale/issues/1164
 
@@ -292,3 +306,4 @@ augroup ft_ruby
     set tabstop=2
     set shiftwidth=2
 augroup END
+
