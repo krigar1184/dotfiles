@@ -191,7 +191,7 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
 
   " Ale
   let g:ale_linters = {
-    \'python': ['pyls', 'pylint'],
+    \'python': ['pyls', 'pylint', 'mypy'],
     \'bash': ['shell'],
     \'zsh': ['shell'],
     \'dockerfile': ['hadolint'],
@@ -237,7 +237,10 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:signify_vcs_list = ['git']
   let g:signify_realtime = 1
 
-  " Airline {{{
+  " Gundo
+  let g:gundo_prefer_python3 = 1
+
+  " Airline 
   let g:airline_theme = 'jellybeans'
   let g:airline#extensions#tabline#enabled = 1
   let g:airline#extensions#branch#enabled = 1
