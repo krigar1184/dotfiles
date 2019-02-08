@@ -208,16 +208,17 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
 
   let g:ale_enabled = 1
   let g:ale_fix_on_save = 0
-  let g:ale_lint_on_text_changed = 1
-  let g:ale_lint_on_enter = 1
-  let g:ale_lint_on_filetype_changed = 1
+  let g:ale_lint_on_save = 1
+  let g:ale_lint_on_text_changed = 0
+  let g:ale_lint_on_enter = 0
+  let g:ale_lint_on_filetype_changed = 0
   let g:ale_open_list = 1
   let g:ale_list_window_size = 3
   let g:ale_warn_about_trailing_blank_lines = 1
   let g:ale_warn_about_trailing_whitespace = 1
-  let g:ale_set_highlights = 0
+  let g:ale_set_highlights = 1
   let g:ale_set_loclist = 1
-  let g:ale_set_quickfix = 1
+  let g:ale_set_quickfix = 0
   let g:ale_list_window_vertical = 0
   let g:ale_python_flake8_options = '--ignore=E501'
   let g:ale_linters_explicit = 1

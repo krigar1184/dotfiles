@@ -53,7 +53,7 @@
     prompt = false
 
 [mergetool "nvimdiff"]
-    cmd = "nvim -d -u ~/.vimrc \"$LOCAL\" \"$REMOTE\" \"$MERGED\""
+    cmd = "nvim -d -u NONE \"$LOCAL\" \"$REMOTE\" \"$MERGED\""
 
 [rebase]
     autoStash = true
@@ -65,4 +65,4 @@
     tool = nvimdiff
 
 [difftool "nvimdiff"]
-    cmd = "nvim -d -u ~/.vimrc \"$LOCAL\" \"$REMOTE\" \"$MERGED\""
+    cmd = "nvim -d -u NONE \"$LOCAL\" \"$REMOTE\" \"$MERGED\""
