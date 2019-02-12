@@ -164,7 +164,7 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   nnoremap <silent> K :call LanguageClient#textDocument_hover()<cr>
   nnoremap <silent> gd :call LanguageClient#textDocument_definition()<cr>
   nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<cr>
-  nnoremap <silent> fu :call LanguageClient#textDocument_references()<cr>
+  nnoremap <silent> fu :ALEFindReferences<cr>
 
   set omnifunc=LanguageClient#complete
 
@@ -191,7 +191,7 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
 
   " Ale
   let g:ale_linters = {
-    \'python': ['pyls', 'pylint', 'mypy'],
+    \'python': ['pyls', 'pylint', 'mypy', 'flake8'],
     \'bash': ['shell'],
     \'zsh': ['shell'],
     \'dockerfile': ['hadolint'],
