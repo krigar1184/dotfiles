@@ -25,13 +25,22 @@ if [ -d $HOME/.pyenv ]; then
 fi
 
 # Aliases
-alias dps="docker ps"
-alias dcps="docker-compose ps"
-
 if command -v nvim >/dev/null; then
   alias vim=nvim
 fi
 
+alias dcps="docker-compose ps"
+
+function dps() {
+  if command -v docker-pretty-ps>/dev/null; then
+    cmd="docker-pretty-ps"
+  else
+    cmd="docker ps"
+  fi
+
+  eval "$cmd"
+}
+
 function mcd() {
-    mkdir $1 && cd $1;
+  mkdir $1 && cd $1;
 }

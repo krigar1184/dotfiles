@@ -164,7 +164,7 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   nnoremap <silent> K :call LanguageClient#textDocument_hover()<cr>
   nnoremap <silent> gd :call LanguageClient#textDocument_definition()<cr>
   nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<cr>
-  nnoremap <silent> fu :ALEFindReferences<cr>
+  nnoremap <silent> <leader>fu :ALEFindReferences<cr>
 
   set omnifunc=LanguageClient#complete
 
