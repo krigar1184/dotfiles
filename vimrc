@@ -24,8 +24,6 @@ Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next',  'do': 'bash install.
 Plug 'chrisbra/vim-diff-enhanced'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'zchee/deoplete-jedi'
 Plug 'rust-lang/rust.vim'
 Plug 'janko-m/vim-test'
 call plug#end()
@@ -153,10 +151,8 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   nnoremap <leader>gl :Glog<cr>
 
   " LSP
-  let g:deoplete#enable_at_startup = 1
-
   let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+    \ 'rust': ['rustup', 'run', 'nightly-2019-02-08', 'rls'],
     \ 'python': ['pyls'],
   \ }
 
@@ -169,6 +165,7 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   set omnifunc=LanguageClient#complete
 
   let $RUST_BACKTRACE=0
+  let g:LanguageClient_autoStart = 1
   let g:LanguageClient_loggingLevel = 'INFO'
   let g:LanguageClient_loggingFile = expand('~/.local/share/nvim/LanguageClient.log')
   let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
@@ -187,12 +184,17 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
     \'name': 'pyls',
     \'cmd': {server_info->['pyls']},
     \'whitelist': ['python'],
-    \})
+  \}, 
+  \{
+    \'name': 'rls',
+    \'cmd': {server_info->['rls']},
+    \'whitelist': ['rust'],
+  \})
 
   " Ale
   let g:ale_linters = {
     \'python': ['pyls', 'pylint', 'mypy', 'flake8'],
-    \'rust': ['cargo'],
+    \'rust': ['cargo', 'rls', 'racer'],
     \'bash': ['shell'],
     \'dockerfile': ['hadolint'],
     \'vim': ['vint'],
@@ -204,6 +206,7 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:ale_fixers = [
     \'remove_trailing_lines',
     \'trim_whitespace',
+    \'rustfmt',
   \]
 
   let g:ale_enabled = 1
@@ -311,3 +314,7 @@ augroup ft_ruby
     set shiftwidth=2
 augroup END
 
+augroup ft_rust
+    set tabstop=4
+    set shiftwidth=2
+augroup END
