@@ -192,8 +192,8 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   " Ale
   let g:ale_linters = {
     \'python': ['pyls', 'pylint', 'mypy', 'flake8'],
+    \'rust': ['cargo'],
     \'bash': ['shell'],
-    \'zsh': ['shell'],
     \'dockerfile': ['hadolint'],
     \'vim': ['vint'],
     \'clojure': ['joker'],
