@@ -1,4 +1,0 @@
-python-language-server
-black
-flake8
-isort

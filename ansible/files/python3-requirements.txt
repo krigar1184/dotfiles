@@ -1,0 +1,6 @@
+neovim
+pynvim
+python-language-server[all]
+flake8
+isort
+mypy

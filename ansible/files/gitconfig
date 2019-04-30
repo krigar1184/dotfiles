@@ -5,7 +5,8 @@
 	email = krigar1184@gmail.com
 
 [credential]
-    helper = /usr/share/doc/git-core-doc/contrib/credential/gnome-keyring/git-credential-gnome-keyring
+    # helper = /usr/share/doc/git-core-doc/contrib/credential/gnome-keyring/git-credential-gnome-keyring
+    helper = osxkeychain
 
 [core]
     pager = diff-so-fancy | less --tabs=4 -RFX
@@ -53,7 +54,7 @@
     prompt = false
 
 [mergetool "nvimdiff"]
-    cmd = "nvim -d -u NONE \"$LOCAL\" \"$REMOTE\" \"$MERGED\""
+    cmd = "echo pewpew"
 
 [rebase]
     autoStash = true

@@ -1,0 +1,58 @@
+set -o vi
+
+if [ -x $(command -v brew) ]; then
+  DIR_PREFIX=$(brew --prefix)
+else
+  DIR_PREFIX=""
+fi
+
+if [ -f /etc/bashrc ]; then
+  . /etc/bashrc
+fi
+
+function prompt_command() {
+  if [ -d ./.git ]; then
+    branch=$(git branch|grep ^*|awk '{ print $2 }')
+    printf "($branch) "
+  fi
+}
+
+export PROMPT_COMMAND=prompt_command
+export PS1='\w [\u]\$ '
+
+if [ -f $DIR_PREFIX/etc/bash_completion ]; then
+  source $DIR_PREFIX/etc/bash_completion
+fi
+
+export LC_ALL=en_US.UTF-8
+
+if [ -d $HOME/bin ]; then
+  export PATH=$PATH:$HOME/bin
+fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+if command -v rg >/dev/null && command -v fzf >/dev/null; then
+  export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+fi
+
+# Aliases
+if command -v nvim >/dev/null; then
+  alias vim=nvim
+fi
+
+alias dcps="docker-compose ps"
+
+function dps() {
+  if command -v docker-pretty-ps>/dev/null; then
+    cmd="docker-pretty-ps"
+  else
+    cmd="docker ps"
+  fi
+
+  eval "$cmd"
+}
+
+function mcd() {
+  mkdir $1 && cd $1;
+}

@@ -26,10 +26,11 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'janko-m/vim-test'
+Plug 'Shougo/deoplete.nvim', { 'do': 'UpdateRemotePlugins' }
 call plug#end()
 
-let g:python_host_prog=expand('~/.pyenv/versions/neovim2/bin/python')
-let g:python3_host_prog=expand('~/.pyenv/versions/neovim3/bin/python')
+let g:python_host_prog=expand('/usr/local/bin/python2.7')  " neovim plugin is installed globally because of a weird error
+let g:python3_host_prog=expand('~/.config/pynvim3/bin/python')
 
 set runtimepath+=expand('~/.config/nvim/plugged/LanguageClient-neovim')
 set autoread
@@ -153,7 +154,7 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   " LSP
   let g:LanguageClient_serverCommands = {
     \ 'rust': ['rustup', 'run', 'nightly-2019-02-08', 'rls'],
-    \ 'python': ['pyls'],
+    \ 'python': ['python', '-m', 'pyls'],
   \ }
 
   nnoremap <silent> <F3> :LanguageClient_contextMenu()<cr>
@@ -163,8 +164,9 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   nnoremap <silent> <leader>fu :ALEFindReferences<cr>
 
   set omnifunc=LanguageClient#complete
+  let g:deoplete#enable_at_startup = 1
 
-  let $RUST_BACKTRACE=0
+  let $RUST_BACKTRACE=1
   let g:LanguageClient_autoStart = 1
   let g:LanguageClient_loggingLevel = 'INFO'
   let g:LanguageClient_loggingFile = expand('~/.local/share/nvim/LanguageClient.log')
@@ -193,7 +195,7 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
 
   " Ale
   let g:ale_linters = {
-    \'python': ['pyls', 'pylint', 'mypy', 'flake8'],
+    \'python': ['pylint', 'mypy', 'flake8'],
     \'rust': ['cargo', 'rls', 'racer'],
     \'bash': ['shell'],
     \'dockerfile': ['hadolint'],

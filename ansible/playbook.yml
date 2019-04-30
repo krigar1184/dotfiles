@@ -1,0 +1,95 @@
+---
+
+- hosts: localhost
+  vars:
+    pip_packages:
+      - docker-pretty-ps
+
+    brew_packages: 
+      - diff-so-fancy
+      - ripgrep
+      - fzf
+
+  tasks:
+    - name: Copy gitconfig
+      file:
+        src: "{{ playbook_dir }}/files/gitconfig"
+        dest: "~/.gitconfig"
+        state: link
+        force: yes
+      tags:
+        - git
+
+    - name: Copy vimrc
+      file:
+        src: "{{ playbook_dir }}/files/vimrc"
+        path: "~/.vimrc"
+        state: link
+        force: yes
+      tags:
+        - vim
+
+    - name: Create symlink for neovim
+      shell: '[ -d ~/.config/nvim ] && ln -sf "{{ playbook_dir }}/files/vimrc" ~/.config/nvim/init.vim'
+      tags:
+        - vim
+
+    - name: Create python2 virtualenv for neovim
+      pip:
+        virtualenv: ~/.config/pynvim2
+        virtualenv_python: python2.7
+        requirements: "{{ playbook_dir }}/files/python2-requirements.txt"
+      tags:
+        - vim
+
+    - name: Create python3 virtualenv for neovim
+      pip:
+        virtualenv: ~/.config/pynvim3
+        virtualenv_python: python3.7
+        requirements: "{{ playbook_dir }}/files/python3-requirements.txt"
+      tags:
+        - vim
+
+    - name: Symlink tmux config
+      file:
+        src: "{{ playbook_dir }}/files/tmux.conf"
+        dest: ~/.tmux.conf
+        state: link
+        force: yes
+      tags:
+        - tmux
+
+    - name: Symlink bash_profile
+      file:
+        src: "{{ playbook_dir }}/files/bash_profile"
+        dest: ~/.bash_profile
+        state: link
+        force: yes
+      tags:
+        - bash
+
+    - name: Symlink bashrc
+      file:
+        src: "{{ playbook_dir }}/files/bashrc"
+        dest: ~/.bashrc
+        state: link
+        force: yes
+      tags:
+        - bash
+
+    - name: Install homebrew packages (MacOS only)
+      homebrew:
+        name: "{{ brew_packages }}"
+        state: present
+      tags:
+        - homebrew
+        - macos
+        - deps
+
+    - name: Install python packages
+      pip:
+        name: "{{ pip_packages }}"
+        state: present
+      tags:
+        - deps
+
