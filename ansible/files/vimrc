@@ -154,7 +154,7 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   " LSP
   let g:LanguageClient_serverCommands = {
     \ 'rust': ['rustup', 'run', 'nightly-2019-02-08', 'rls'],
-    \ 'python': ['python', '-m', 'pyls'],
+    \ 'python': ['~/.config/pynvim3/bin/python', '-m', 'pyls'],
   \ }
 
   nnoremap <silent> <F3> :LanguageClient_contextMenu()<cr>
@@ -195,7 +195,7 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
 
   " Ale
   let g:ale_linters = {
-    \'python': ['pylint', 'mypy', 'flake8'],
+    \'python': ['pyls'],
     \'rust': ['cargo', 'rls', 'racer'],
     \'bash': ['shell'],
     \'dockerfile': ['hadolint'],

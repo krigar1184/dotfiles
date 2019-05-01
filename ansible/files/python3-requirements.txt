@@ -1,6 +1,9 @@
 neovim
 pynvim
+setuptools
 python-language-server[all]
 flake8
 isort
 mypy
+jedi
+pyls-mypy

@@ -39,6 +39,8 @@
         virtualenv: ~/.config/pynvim2
         virtualenv_python: python2.7
         requirements: "{{ playbook_dir }}/files/python2-requirements.txt"
+        state: forcereinstall
+        extra_args: --user
       tags:
         - vim
 
@@ -47,6 +49,8 @@
         virtualenv: ~/.config/pynvim3
         virtualenv_python: python3.7
         requirements: "{{ playbook_dir }}/files/python3-requirements.txt"
+        state: forcereinstall
+        extra_args: --user
       tags:
         - vim
 
