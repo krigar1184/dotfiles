@@ -42,6 +42,7 @@ if command -v nvim >/dev/null; then
 fi
 
 alias dcps="docker-compose ps"
+alias love="/Applications/love.app/Contents/MacOS/love"
 
 function dps() {
   if command -v docker-pretty-ps>/dev/null; then

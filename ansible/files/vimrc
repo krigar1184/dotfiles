@@ -27,6 +27,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'janko-m/vim-test'
 Plug 'Shougo/deoplete.nvim', { 'do': 'UpdateRemotePlugins' }
+Plug 'ron-rs/ron.vim'
 call plug#end()
 
 let g:python_host_prog=expand('/usr/local/bin/python2.7')  " neovim plugin is installed globally because of a weird error
@@ -45,7 +46,7 @@ set listchars+=precedes:<,extends:>
 set nocompatible
 set nowrap
 set number
-set previewheight=5
+" set previewheight=5
 set shiftwidth=4
 set shiftround
 set sidescroll=5
@@ -155,6 +156,8 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
   let g:LanguageClient_serverCommands = {
     \ 'rust': ['rustup', 'run', 'nightly-2019-02-08', 'rls'],
     \ 'python': ['~/.config/pynvim3/bin/python', '-m', 'pyls'],
+    \ 'lua': ['lua-lsp'],
+    \ 'dockerfile': ['hadolint'],
   \ }
 
   nnoremap <silent> <F3> :LanguageClient_contextMenu()<cr>
@@ -182,17 +185,6 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
     autocmd BufReadPost *.rs setlocal filetype=rust
   augroup END
 
-  au User lsp_setup call lsp#register_server({
-    \'name': 'pyls',
-    \'cmd': {server_info->['pyls']},
-    \'whitelist': ['python'],
-  \}, 
-  \{
-    \'name': 'rls',
-    \'cmd': {server_info->['rls']},
-    \'whitelist': ['rust'],
-  \})
-
   " Ale
   let g:ale_linters = {
     \'python': ['pyls'],
@@ -211,7 +203,7 @@ nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
     \'rustfmt',
   \]
 
-  let g:ale_enabled = 1
+  let g:ale_enabled = 0
   let g:ale_fix_on_save = 0
   let g:ale_lint_on_save = 1
   let g:ale_lint_on_text_changed = 0
