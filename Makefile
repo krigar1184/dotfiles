@@ -1,6 +1,5 @@
 ANSIBLE_ROOT := ./ansible
-ANSIBLE_OPTS := "-i ./hosts -vv"
-ANSIBLE_CMD := ansible-playbook $(ANSIBLE_ROOT)/playbook.yml -i ./hosts -vv
+ANSIBLE_CMD := ansible-playbook $(ANSIBLE_ROOT)/playbook.yml -i ./ansible/hosts -vv
 
 .PHONY: *
 

@@ -30,10 +30,18 @@ if [ -d $HOME/bin ]; then
   export PATH=$PATH:$HOME/bin
 fi
 
+if [ -d $HOME/Library/Python/3.7/bin ]; then
+    export PATH=$PATH:$HOME/Library/Python/3.7/bin
+fi
+
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 if command -v rg >/dev/null && command -v fzf >/dev/null; then
   export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+fi
+
+if [ -f ~/.ghcup/env ]; then
+  source ~/.ghcup/env
 fi
 
 # Aliases
@@ -42,7 +50,6 @@ if command -v nvim >/dev/null; then
 fi
 
 alias dcps="docker-compose ps"
-alias love="/Applications/love.app/Contents/MacOS/love"
 
 function dps() {
   if command -v docker-pretty-ps>/dev/null; then

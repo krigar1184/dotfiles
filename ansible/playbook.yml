@@ -6,12 +6,13 @@
       - docker-pretty-ps
 
     brew_packages: 
+      - ctags
       - diff-so-fancy
       - ripgrep
       - fzf
 
   tasks:
-    - name: Copy gitconfig
+    - name: Symlink gitconfig
       file:
         src: "{{ playbook_dir }}/files/gitconfig"
         dest: "~/.gitconfig"
@@ -20,10 +21,19 @@
       tags:
         - git
 
-    - name: Copy vimrc
+    - name: Symlink vimrc
       file:
         src: "{{ playbook_dir }}/files/vimrc"
         path: "~/.vimrc"
+        state: link
+        force: yes
+      tags:
+        - vim
+
+    - name: Symlink vint config
+      file:
+        src: "{{ playbook_dir }}/files/vintrc.yml"
+        dest: "~/.vintrc.yml"
         state: link
         force: yes
       tags:
@@ -34,23 +44,32 @@
       tags:
         - vim
 
-    - name: Create python2 virtualenv for neovim
+    - name: Create python3 virtualenv for neovim
       pip:
-        virtualenv: ~/.config/pynvim2
-        virtualenv_python: python2.7
-        requirements: "{{ playbook_dir }}/files/python2-requirements.txt"
+        virtualenv: ~/.config/pynvim3
+        virtualenv_python: python3.7
+        virtualenv_command: venv
+        requirements: "{{ playbook_dir }}/files/python3-requirements.txt"
         state: forcereinstall
         extra_args: --user
       tags:
         - vim
 
-    - name: Create python3 virtualenv for neovim
-      pip:
-        virtualenv: ~/.config/pynvim3
-        virtualenv_python: python3.7
-        requirements: "{{ playbook_dir }}/files/python3-requirements.txt"
-        state: forcereinstall
-        extra_args: --user
+    - name: Symlink pycodestyle
+      file:
+        src: "{{ playbook_dir }}/files/pycodestyle"
+        dest: ~/.config/pycodestyle
+        state: link
+        force: yes
+      tags:
+        - vim
+
+    - name: Symlink pylintrc
+      file:
+        src: "{{ playbook_dir }}/files/pylintrc"
+        dest: ~/.pylintrc
+        state: link
+        force: yes
       tags:
         - vim
 

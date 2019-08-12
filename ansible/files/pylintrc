@@ -1,0 +1,17 @@
+[format]
+max-line-length = 120
+
+[messages control]
+enable =
+    useless-suppression
+
+disable =
+    invalid-name,
+    missing-docstring,
+    too-few-public-methods,
+    too-many-arguments,
+    too-many-instance-attributes,
+    import-error
+
+[reports]
+reports = no

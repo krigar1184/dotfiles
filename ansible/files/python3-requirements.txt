@@ -1,9 +1,8 @@
 neovim
 pynvim
+vim-vint
 setuptools
-python-language-server[all]
+python-language-server
 flake8
-isort
 mypy
 jedi
-pyls-mypy

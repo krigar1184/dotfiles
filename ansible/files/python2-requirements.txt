@@ -1,5 +1,4 @@
 neovim
-pynvim
-python-language-server[all]
+python-language-server
 flake8
 isort
