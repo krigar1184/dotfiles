@@ -11,14 +11,10 @@ if [ -f /etc/bashrc ]; then
 fi
 
 function prompt_command() {
-  if [ -d ./.git ]; then
-    branch=$(git branch|grep ^*|awk '{ print $2 }')
-    printf "($branch) "
-  fi
+  export PS1='$(__git_ps1) \w [\u]\$ '
 }
 
 export PROMPT_COMMAND=prompt_command
-export PS1='\w [\u]\$ '
 
 if [ -f $DIR_PREFIX/etc/bash_completion ]; then
   source $DIR_PREFIX/etc/bash_completion
