@@ -25,6 +25,10 @@ Plug 'Shougo/deoplete.nvim', { 'do': 'UpdateRemotePlugins' }
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'ron-rs/ron.vim', { 'for': 'rust' }
+Plug 'elixir-editors/vim-elixir', { 'for': 'elixir' }
+Plug 'sheerun/vim-polyglot'
+Plug 'trkw/yarn.vim'
+Plug 'glippi/yarn-vim'
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "Plug 'neoclide/coc-python'
 "Plug 'neoclide/coc-json'
@@ -38,6 +42,17 @@ augroup filetype_python
         let g:virtualenv_directory = $VIRTUAL_ENV
     endif
 augroup END
+
+au BufRead,BufNewFile *.ex,*.exs set filetype=elixir
+au BufRead,BufNewFile *.eex,*.leex set filetype=eelixir
+au BufRead,BufNewFile mix.lock set filetype=elixir
+au BufRead,BufNewFile * call s:DetectElixir()
+
+function! s:DetectElixir()
+  if (!did_filetype() || &filetype !=# 'elixir') && getline(1) =~# '^#!.*\<elixir\>'
+    set filetype=elixir
+  endif
+endfunction
 
 set hidden
 set runtimepath+=expand('~/.config/nvim/plugged/LanguageClient-neovim')
@@ -53,7 +68,7 @@ set listchars+=precedes:<,extends:>
 set nocompatible
 set nowrap
 set number
-set shiftwidth=4
+set shiftwidth=2
 set shiftround
 set sidescroll=5
 set signcolumn=yes
@@ -132,8 +147,15 @@ onoremap il[ :<c-u>normal! F]vi[<cr>
 onoremap an[ :<c-u>normal! f[va[<cr>
 onoremap al[ :<c-u>normal! F]va[<cr>
 
-nnoremap <leader>d oimport ipdb;ipdb.set_trace(context=10)<esc>
-nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
+augroup filetype_python
+  nnoremap <leader>d oimport ipdb;ipdb.set_trace(context=10)<esc>
+  nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
+augroup END
+
+augroup filetype_javascript
+  nnoremap <leader>d odebugger;<esc>
+  nnoremap <leader>D Odebugger;<esc>
+augroup END
 
 " Nerdtree config
 nnoremap <leader>tn :NERDTreeToggle<cr>
@@ -166,9 +188,20 @@ nnoremap <leader>gl :Glog<cr>
 
   " LSP
 let g:LanguageClient_serverCommands = {
-  \ 'rust': ['rustup', 'run', 'nightly-2019-02-08', 'rls'],
   \ 'python': ['~/.config/pynvim3/bin/python', '-m', 'pyls'],
+  \ 'javascript': ['node', '~/.local/bin/js-language-server'],
+  \ 'typescript': ['node', '~/.local/bin/js-language-server'],
+  \ 'typescript.tsx': ['node', '~/.local/bin/js-language-server'],
+  \ 'rust': ['rustup', 'run', 'nightly-2019-02-08', 'rls'],
   \ 'dockerfile': ['hadolint'],
+  \ 'haskell': ['hie-wrapper'],
+  \ 'elixir': ['elixir-ls'],
+\ }
+
+let g:LanguageClient_rootMarkers = {
+  \ 'elixir': ['mix.lock', 'mix.exs'],
+  \ 'javascript': ['lerna.json'],
+  \ 'typescript': ['lerna.json'],
 \ }
 
 nnoremap <silent> <F4> :LanguageClient_contextMenu()<cr>
