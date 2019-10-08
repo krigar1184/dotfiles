@@ -179,6 +179,24 @@ let g:tagbar_sort = 1
 let g:tagbar_show_visibility = 1
 let g:tagbar_show_linenumbers = 1
 let g:autoshowtag = 1
+let g:tagbar_type_typescript = {                                                  
+  \ 'ctagsbin' : 'tstags',                                                        
+  \ 'ctagsargs' : '-f-',                                                           
+  \ 'kinds': [                                                                     
+    \ 'e:enums:0:1',                                                               
+    \ 'f:function:0:1',                                                            
+    \ 't:typealias:0:1',                                                           
+    \ 'M:Module:0:1',                                                              
+    \ 'I:import:0:1',                                                              
+    \ 'i:interface:0:1',                                                           
+    \ 'C:class:0:1',                                                               
+    \ 'm:method:0:1',                                                              
+    \ 'p:property:0:1',                                                            
+    \ 'v:variable:0:1',                                                            
+    \ 'c:const:0:1',                                                              
+  \ ],                                                                            
+  \ 'sort' : 0                                                                    
+\ }             
 
 " Fugitive
 nnoremap <leader>gb :Gblame<cr>
@@ -200,15 +218,15 @@ let g:LanguageClient_serverCommands = {
 
 let g:LanguageClient_rootMarkers = {
   \ 'elixir': ['mix.lock', 'mix.exs'],
-  \ 'javascript': ['lerna.json'],
-  \ 'typescript': ['lerna.json'],
+  \ 'javascript': ['lerna.json', 'package.json'],
+  \ 'typescript': ['lerna.json', 'tsconfig.json'],
 \ }
 
 nnoremap <silent> <F4> :LanguageClient_contextMenu()<cr>
 nnoremap <silent> K :call LanguageClient#textDocument_hover()<cr>
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<cr>
 nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<cr>
-nnoremap <silent> <leader>fu :ALEFindReferences<cr>
+nnoremap <silent> <leader>fu :LanguageClient#findLocations()<cr>
 
 let g:deoplete#enable_at_startup = 1
 
