@@ -29,6 +29,7 @@ Plug 'elixir-editors/vim-elixir', { 'for': 'elixir' }
 Plug 'sheerun/vim-polyglot'
 Plug 'trkw/yarn.vim'
 Plug 'glippi/yarn-vim'
+Plug 'tpope/vim-commentary'
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "Plug 'neoclide/coc-python'
 "Plug 'neoclide/coc-json'

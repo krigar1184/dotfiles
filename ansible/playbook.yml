@@ -10,6 +10,7 @@
       - diff-so-fancy
       - ripgrep
       - fzf
+      - reattach-to-user-namespace
 
   tasks:
     - name: Symlink gitconfig
