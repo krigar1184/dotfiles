@@ -210,11 +210,13 @@ let g:LanguageClient_serverCommands = {
   \ 'python': ['~/.config/pynvim3/bin/python', '-m', 'pyls'],
   \ 'javascript': ['node', '~/.local/bin/js-language-server'],
   \ 'typescript': ['node', '~/.local/bin/js-language-server'],
+  \ 'typescriptreact': ['node', '~/.local/bin/js-language-server'],
   \ 'typescript.tsx': ['node', '~/.local/bin/js-language-server'],
   \ 'rust': ['rustup', 'run', 'nightly-2019-02-08', 'rls'],
   \ 'dockerfile': ['hadolint'],
   \ 'haskell': ['hie-wrapper'],
   \ 'elixir': ['elixir-ls'],
+  \ 'c': ['cquery', '--init={"cacheDirectory":"/tmp/cquery"}'],
 \ }
 
 let g:LanguageClient_rootMarkers = {

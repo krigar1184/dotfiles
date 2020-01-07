@@ -54,7 +54,7 @@
     prompt = false
 
 [mergetool "nvimdiff"]
-    cmd = "echo pewpew"
+    cmd = "nvim -d -u NONE \"$LOCAL\" \"$REMOTE\" \"$MERGED\""
 
 [rebase]
     autoStash = true
