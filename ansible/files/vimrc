@@ -33,6 +33,7 @@ Plug 'tpope/vim-commentary'
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "Plug 'neoclide/coc-python'
 "Plug 'neoclide/coc-json'
+Plug 'dense-analysis/ale'
 call plug#end()
 
 let g:loaded_python_provider = 1  " Disabling python 2 due to a weird error
@@ -149,13 +150,15 @@ onoremap an[ :<c-u>normal! f[va[<cr>
 onoremap al[ :<c-u>normal! F]va[<cr>
 
 augroup filetype_python
-  nnoremap <leader>d oimport ipdb;ipdb.set_trace(context=10)<esc>
-  nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
+  autocmd!
+  autocmd FileType python nnoremap <leader>d oimport ipdb;ipdb.set_trace(context=10)<esc>
+  autocmd FileType python nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
 augroup END
 
 augroup filetype_javascript
-  nnoremap <leader>d odebugger;<esc>
-  nnoremap <leader>D Odebugger;<esc>
+  autocmd!
+  autocmd FileType javascript nnoremap <leader>d odebugger;<esc>
+  autocmd FileType javascript nnoremap <leader>D Odebugger;<esc>
 augroup END
 
 " Nerdtree config
@@ -207,16 +210,17 @@ nnoremap <leader>gl :Glog<cr>
 
   " LSP
 let g:LanguageClient_serverCommands = {
-  \ 'python': ['~/.config/pynvim3/bin/python', '-m', 'pyls'],
+  \ 'python': ['python', '-m', 'pyls'],
   \ 'javascript': ['node', '~/.local/bin/js-language-server'],
   \ 'typescript': ['node', '~/.local/bin/js-language-server'],
   \ 'typescript.tsx': ['node', '~/.local/bin/js-language-server'],
+  \ 'typescriptreact': ['node', '~/.local/bin/js-language-server'],
   \ 'rust': ['rustup', 'run', 'nightly-2019-02-08', 'rls'],
   \ 'dockerfile': ['hadolint'],
   \ 'haskell': ['hie-wrapper'],
   \ 'elixir': ['elixir-ls'],
 \ }
-
+let g:LanguageClient_settingsPath = expand('~/.local/share/nvim/settings.json')
 let g:LanguageClient_rootMarkers = {
   \ 'elixir': ['mix.lock', 'mix.exs'],
   \ 'javascript': ['lerna.json', 'package.json'],
@@ -257,45 +261,47 @@ augroup filetype_rust
     autocmd!
     autocmd BufReadPost *.rs setlocal filetype=rust
 augroup END
-" 
-" " Ale
-" let g:ale_linters = {
-"     \'python': ['pyls'],
-"     \'rust': ['cargo', 'rls', 'racer'],
-"     \'bash': ['shell'],
-"     \'dockerfile': ['hadolint'],
-"     \'vim': ['vint'],
-"     \'clojure': ['joker'],
-"     \'JSON': ['jsonlint'],
-"     \'SQL': ['sqlint'],
-"     \'XML': ['xmllint'],
-" \}
-" let g:ale_fixers = [
-"     \'remove_trailing_lines',
-"     \'trim_whitespace',
-"     \'rustfmt',
-" \]
-" 
-" let g:ale_enabled = 0
-" let g:ale_fix_on_save = 0
-" let g:ale_lint_on_save = 1
-" let g:ale_lint_on_text_changed = 0
-" let g:ale_lint_on_enter = 0
-" let g:ale_lint_on_filetype_changed = 0
-" let g:ale_open_list = 1
-" let g:ale_list_window_size = 3
-" let g:ale_warn_about_trailing_blank_lines = 1
-" let g:ale_warn_about_trailing_whitespace = 1
-" let g:ale_set_highlights = 1
-" let g:ale_set_loclist = 1
-" let g:ale_set_quickfix = 0
-" let g:ale_list_window_vertical = 0
-" let g:ale_python_flake8_options = '--ignore=E501'
-" let g:ale_linters_explicit = 1
-" let g:ale_sign_column_always = 1
-" 
-" autocmd User ALELintPost call s:ale_loclist_limit()  " see https://github.com/w0rp/ale/issues/1164
-" 
+
+" Ale
+ let g:ale_linters = {
+     \'python': ['pyls', 'mypy', 'flake8', 'pycodestyle'],
+     \'rust': ['cargo', 'rls', 'racer'],
+     \'bash': ['shell'],
+     \'dockerfile': ['hadolint'],
+     \'vim': ['vint'],
+     \'clojure': ['joker'],
+     \'JSON': ['jsonlint'],
+     \'SQL': ['sqlint'],
+     \'XML': ['xmllint'],
+ \}
+ let g:ale_fixers = [
+     \'remove_trailing_lines',
+     \'trim_whitespace',
+     \'rustfmt',
+     \'isort',
+ \]
+ 
+ let g:ale_enabled = 1
+ let g:ale_fix_on_save = 1
+ let g:ale_lint_on_save = 1
+ let g:ale_lint_on_text_changed = 0
+ let g:ale_lint_on_enter = 0
+ let g:ale_lint_on_filetype_changed = 1
+ let g:ale_open_list = 0
+ let g:ale_list_window_size = 3
+ let g:ale_warn_about_trailing_blank_lines = 1
+ let g:ale_warn_about_trailing_whitespace = 1
+ let g:ale_set_highlights = 1
+ let g:ale_set_loclist = 0
+ let g:ale_set_quickfix = 0
+ let g:ale_list_window_vertical = 0
+ let g:ale_linters_explicit = 1
+ let g:ale_sign_column_always = 1
+ let g:ale_virtualtext_cursor = 1
+ let g:ale_set_balloons = 1
+
+ autocmd User ALELintPost call s:ale_loclist_limit()  " see https://github.com/w0rp/ale/issues/1164
+
 function! s:ale_loclist_limit()
     if exists("b:ale_list_window_size_max")
         let b:ale_list_window_size = min([len(ale#engine#GetLoclist(bufnr('%'))), b:ale_window_size_max])

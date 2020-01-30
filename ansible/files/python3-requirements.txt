@@ -6,3 +6,6 @@ python-language-server
 flake8
 mypy
 jedi
+pluggy
+isort
+pyls-mypy

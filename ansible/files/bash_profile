@@ -3,10 +3,13 @@
 export CLICOLOR=1
 export LDFLAGS="-L/usr/local/opt/zlib/lib"
 export CPPFLAGS="-I/usr/local/opt/zlib/include"
+export TERM=screen-256color
+export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 
 export PATH="$HOME/.cargo/bin:$PATH"
-export PATH=/Users/krigar1184/.cargo/bin:~/.cargo/bin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/krigar1184/.cargo/bin:~/.cargo/bin:~/nand2tetris/tools
+# export PATH="$HOME/.cargo/bin:~/.cargo/bin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/krigar1184/.cargo/bin:~/.cargo/bin:~/nand2tetris/tools
 export PATH="$HOME/.poetry/bin:$PATH"
+export PAth="$HOME/bin:$PATH"
 
 if [ -r ~/.bashrc ]; then
   . ~/.bashrc
