@@ -11,6 +11,7 @@
       - ripgrep
       - fzf
       - reattach-to-user-namespace
+      - tig
 
   tasks:
     - name: Symlink gitconfig
@@ -40,10 +41,10 @@
       tags:
         - vim
 
-    - name: Create symlink for neovim
-      shell: '[ -d ~/.config/nvim ] && ln -sf "{{ playbook_dir }}/files/vimrc" ~/.config/nvim/init.vim'
-      tags:
-        - vim
+#     - name: Create symlink for neovim
+#       shell: false && 'ln -sf "{{ playbook_dir }}/files/vimrc" ~/.config/nvim/init.vim'
+#       tags:
+#         - vim
 
     - name: Create python3 virtualenv for neovim
       pip:
@@ -105,6 +106,7 @@
       homebrew:
         name: "{{ brew_packages }}"
         state: present
+      when: ansible_facts['os_family'] == 'MacOS'
       tags:
         - homebrew
         - macos

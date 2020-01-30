@@ -38,6 +38,9 @@ Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'liuchengxu/vista.vim'
+Plug 'rust-lang/rust.vim', {'for': 'rust'}
+Plug 'ron-rs/ron.vim', {'for': 'rust'}
+Plug 'sheerun/vim-polyglot'
 call plug#end()
 
 set nobackup
@@ -116,6 +119,7 @@ augroup filetype_python
 augroup END
 
 augroup filetype_javascript
+  autocmd!
   autocmd FileType javascript nnoremap <leader>d odebugger;<esc>
   autocmd FileType javascript nnoremap <leader>D Odebugger;<esc>
 augroup END
@@ -125,10 +129,146 @@ set background = "dark"
 let g:solarized_termcolors = 256
 silent! colorscheme jellybeans
 
+" Tagbar
+nnoremap <c-t> :TagbarToggle<cr>
+let g:tagbar_autofocus = 1
+let g:tagbar_sort = 1
+let g:tagbar_show_visibility = 1
+let g:tagbar_show_linenumbers = 1
+let g:autoshowtag = 1
+let g:tagbar_type_typescript = {                                                  
+  \ 'ctagsbin' : 'tstags',                                                        
+  \ 'ctagsargs' : '-f-',                                                           
+  \ 'kinds': [                                                                     
+    \ 'e:enums:0:1',                                                               
+    \ 'f:function:0:1',                                                            
+    \ 't:typealias:0:1',                                                           
+    \ 'M:Module:0:1',                                                              
+    \ 'I:import:0:1',                                                              
+    \ 'i:interface:0:1',                                                           
+    \ 'C:class:0:1',                                                               
+    \ 'm:method:0:1',                                                              
+    \ 'p:property:0:1',                                                            
+    \ 'v:variable:0:1',                                                            
+    \ 'c:const:0:1',                                                              
+  \ ],                                                                            
+  \ 'sort' : 0                                                                    
+\ }             
+
+" Fugitive
+nnoremap <leader>gb :Gblame<cr>
+nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gg :Ggrep<cr>
+nnoremap <leader>gl :Glog<cr>
+
+  " LSP
+let g:LanguageClient_serverCommands = {
+  \ 'python': ['python', '-m', 'pyls'],
+  \ 'javascript': ['node', '~/.local/bin/js-language-server'],
+  \ 'typescript': ['node', '~/.local/bin/js-language-server'],
+  \ 'typescript.tsx': ['node', '~/.local/bin/js-language-server'],
+  \ 'typescriptreact': ['node', '~/.local/bin/js-language-server'],
+  \ 'rust': ['rustup', 'run', 'nightly-2019-02-08', 'rls'],
+  \ 'dockerfile': ['hadolint'],
+  \ 'haskell': ['hie-wrapper'],
+  \ 'elixir': ['elixir-ls'],
+\ }
+let g:LanguageClient_settingsPath = expand('~/.local/share/nvim/settings.json')
+let g:LanguageClient_rootMarkers = {
+  \ 'elixir': ['mix.lock', 'mix.exs'],
+  \ 'javascript': ['lerna.json', 'package.json'],
+  \ 'typescript': ['lerna.json', 'tsconfig.json'],
+\ }
+
+nnoremap <silent> <F4> :LanguageClient_contextMenu()<cr>
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<cr>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<cr>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<cr>
+nnoremap <silent> <leader>fu :LanguageClient#findLocations()<cr>
+
+let g:deoplete#enable_at_startup = 1
+
+function! LC_log()
+   :e expand('~/.local/share/nvim/LanguageClient.log')
+endfunction
+
+function! LC_stderr()
+    :e expand('~/.local/share/nvim/LanguageServer.log')
+endfunction
+
+let $RUST_BACKTRACE=1
+let g:LanguageClient_autoStart = 1
+let g:LanguageClient_autoStop = 1
+let g:LanguageClient_loggingLevel = 'DEBUG'
+let g:LanguageClient_loggingFile = expand('~/.local/share/nvim/LanguageClient.log')
+let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
+let g:LanguageClient_selectionUI = 'fzf'
+let g:LanguageClient_diagnosticsEnable = 1
+let g:LanguageClient_diagnosticsList = 'Location'
+let g:LanguageClient_diagnosticsSignsMax = 5
+let g:LanguageClient_windowLogMessageLevel = 'Error'
+let g:LanguageClient_fzfContextMenu = 1
+let g:LanguageClient_hoverPreview = 'Auto'
+
 augroup filetype_rust
     autocmd!
     autocmd BufReadPost *.rs setlocal filetype=rust
 augroup END
+
+" Ale
+ let g:ale_linters = {
+     \'python': ['pyls', 'mypy', 'flake8', 'pycodestyle'],
+     \'rust': ['cargo', 'rls', 'racer'],
+     \'bash': ['shell'],
+     \'dockerfile': ['hadolint'],
+     \'vim': ['vint'],
+     \'clojure': ['joker'],
+     \'JSON': ['jsonlint'],
+     \'SQL': ['sqlint'],
+     \'XML': ['xmllint'],
+ \}
+ let g:ale_fixers = [
+     \'remove_trailing_lines',
+     \'trim_whitespace',
+     \'rustfmt',
+     \'isort',
+ \]
+ 
+ let g:ale_enabled = 1
+ let g:ale_fix_on_save = 1
+ let g:ale_lint_on_save = 1
+ let g:ale_lint_on_text_changed = 0
+ let g:ale_lint_on_enter = 0
+ let g:ale_lint_on_filetype_changed = 1
+ let g:ale_open_list = 0
+ let g:ale_list_window_size = 3
+ let g:ale_warn_about_trailing_blank_lines = 1
+ let g:ale_warn_about_trailing_whitespace = 1
+ let g:ale_set_highlights = 1
+ let g:ale_set_loclist = 0
+ let g:ale_set_quickfix = 0
+ let g:ale_list_window_vertical = 0
+ let g:ale_linters_explicit = 1
+ let g:ale_sign_column_always = 1
+ let g:ale_virtualtext_cursor = 1
+ let g:ale_set_balloons = 1
+
+ autocmd User ALELintPost call s:ale_loclist_limit()  " see https://github.com/w0rp/ale/issues/1164
+
+function! s:ale_loclist_limit()
+    if exists("b:ale_list_window_size_max")
+        let b:ale_list_window_size = min([len(ale#engine#GetLoclist(bufnr('%'))), b:ale_window_size_max])
+    elseif exists("g:ale_list_window_size_max")
+        let b:ale_list_window_size = min([len(ale#engine#GetLoclist(bufnr('%'))), g:ale_list_window_size])
+    endif
+endfunction
+
+" Signify
+let g:signify_vcs_list = ['git']
+let g:signify_realtime = 1
+
+" Gundo
+let g:gundo_prefer_python3 = 1
 
 " Airline
 let g:airline_theme = 'jellybeans'

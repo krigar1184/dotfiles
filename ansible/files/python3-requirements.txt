@@ -5,4 +5,7 @@ setuptools
 python-language-server
 flake8
 mypy
-jedi<0.16,>=0.14.1
+jedi
+pluggy
+isort
+pyls-mypy
