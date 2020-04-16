@@ -18,10 +18,10 @@ Plug 'prabirshrestha/async.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next',  'do': 'bash install.sh' }
 Plug 'chrisbra/vim-diff-enhanced'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'install --all' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'janko-m/vim-test'
-Plug 'Shougo/deoplete.nvim', { 'do': 'UpdateRemotePlugins' }
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'ron-rs/ron.vim', { 'for': 'rust' }
