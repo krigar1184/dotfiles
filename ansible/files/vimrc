@@ -34,6 +34,7 @@ Plug 'tpope/vim-commentary'
 "Plug 'neoclide/coc-python'
 "Plug 'neoclide/coc-json'
 Plug 'dense-analysis/ale'
+Plug 'OmniSharp/omnisharp-vim'
 call plug#end()
 
 let g:loaded_python_provider = 1  " Disabling python 2 due to a weird error
@@ -211,10 +212,11 @@ nnoremap <leader>gl :Glog<cr>
   " LSP
 let g:LanguageClient_serverCommands = {
   \ 'python': ['python', '-m', 'pyls'],
-  \ 'javascript': ['node', '~/.local/bin/js-language-server'],
-  \ 'typescript': ['node', '~/.local/bin/js-language-server'],
-  \ 'typescript.tsx': ['node', '~/.local/bin/js-language-server'],
-  \ 'typescriptreact': ['node', '~/.local/bin/js-language-server'],
+  \ 'javascript': ['javascript-typescript-stdio'],
+  \ 'typescript': ['typescript-language-server', '--stdio'],
+  \ 'typescript.tsx': ['typescript-language-server', '--stdio'],
+  \ 'typescriptreact': ['typescript-language-server', '--stdio'],
+  \ 'javascriptreact': ['typescript-language-server', '--stdio'],
   \ 'rust': ['rustup', 'run', 'nightly-2019-02-08', 'rls'],
   \ 'dockerfile': ['hadolint'],
   \ 'haskell': ['hie-wrapper'],
@@ -232,6 +234,15 @@ nnoremap <silent> K :call LanguageClient#textDocument_hover()<cr>
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<cr>
 nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<cr>
 nnoremap <silent> <leader>fu :LanguageClient#findLocations()<cr>
+
+augroup filetype_csharp
+  autocmd!
+
+  autocmd FileType cs nnoremap <silent> K :call LanguageClient#textDocument_hover()<cr>
+  autocmd FileType cs nnoremap <silent> gd :call LanguageClient#textDocument_definition()<cr>
+  autocmd FileType cs nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<cr>
+  autocmd FileType cs nnoremap <silent> <leader>fu :LanguageClient#findLocations()<cr>
+augroup END
 
 let g:deoplete#enable_at_startup = 1
 
@@ -257,6 +268,9 @@ let g:LanguageClient_windowLogMessageLevel = 'Error'
 let g:LanguageClient_fzfContextMenu = 1
 let g:LanguageClient_hoverPreview = 'Auto'
 
+let g:OmniSharp_server_stdio = 1
+let g:OmniSharp_server_use_mono = 1
+
 augroup filetype_rust
     autocmd!
     autocmd BufReadPost *.rs setlocal filetype=rust
@@ -273,6 +287,9 @@ augroup END
      \'JSON': ['jsonlint'],
      \'SQL': ['sqlint'],
      \'XML': ['xmllint'],
+     \'cs': ['OmniSharp'],
+     \'javascript': ['eslint', 'prettier'],
+     \'typescript': ['eslint', 'prettier'],
  \}
  let g:ale_fixers = [
      \'remove_trailing_lines',
@@ -280,6 +297,11 @@ augroup END
      \'rustfmt',
      \'isort',
  \]
+
+ let g:ale_fixers = {
+     \'python': ['isort', 'remove_trailing_lines', 'trim_whitespace'],
+     \'rust': ['rustfmt'],
+ \}
  
  let g:ale_enabled = 1
  let g:ale_fix_on_save = 1

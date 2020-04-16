@@ -38,7 +38,15 @@ if [ -d /usr/local/opt/postgresql@10/bin ]; then
   export PATH=$PATH:/usr/local/opt/postgresql@10/bin
 fi
 
+if [ -d $HOME/.gem/ruby/2.7.0/bin ]; then
+  export PATH=$PATH:$HOME/.gem/ruby/2.7.0/bin
+fi
+
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# Archlinux
+[ -f /usr/share/fzf/completion.bash ] && source /usr/share/fzf/completion.bash
+[ -f /usr/share/fzf/key-bindings.bash ] && source /usr/share/fzf/key-bindings.bash
 
 if command -v rg >/dev/null && command -v fzf >/dev/null; then
   export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
@@ -68,3 +76,4 @@ function dps() {
 function mcd() {
   mkdir $1 && cd $1;
 }
+export MSBuildSDKsPath="/opt/dotnet/sdk/3.1.100/Sdks";
