@@ -35,6 +35,7 @@ Plug 'tpope/vim-commentary'
 "Plug 'neoclide/coc-json'
 Plug 'jgdavey/tslime.vim'
 Plug 'OmniSharp/omnisharp-vim'
+Plug 'dense-analysis/ale'
 call plug#end()
 
 let g:loaded_python_provider = 1  " Disabling python 2 due to a weird error
@@ -160,6 +161,8 @@ augroup filetype_javascript
   nnoremap <leader>D Odebugger;<esc>
 augroup END
 
+autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
+"
 " Nerdtree config
 nnoremap <leader>tn :NERDTreeToggle<cr>
 let g:NERDTreeShowHidden = 1
@@ -236,10 +239,17 @@ nnoremap <silent> gd :call LanguageClient#textDocument_definition()<cr>
 nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<cr>
 nnoremap <silent> <leader>fu :LanguageClient#findLocations()<cr>
 
+let g:OmniSharpStartServer = 1
 let g:OmniSharp_server_stdio = 1
 let g:OmniSharp_server_use_mono = 1
+let g:OmniSharp_selector_ui = 'fzf'
 
 let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_smart_case = 1
+
+call deoplete#custom#option('sources', {
+  \ 'cs': ['omnisharp'],
+  \ })
 
 function! LC_log()
    :e expand('~/.local/share/nvim/LanguageClient.log')
@@ -269,43 +279,44 @@ augroup filetype_rust
 augroup END
 "
 " " Ale
-" let g:ale_linters = {
-"     \'python': ['pyls'],
-"     \'rust': ['cargo', 'rls', 'racer'],
-"     \'bash': ['shell'],
-"     \'dockerfile': ['hadolint'],
-"     \'vim': ['vint'],
-"     \'clojure': ['joker'],
-"     \'JSON': ['jsonlint'],
-"     \'SQL': ['sqlint'],
-"     \'XML': ['xmllint'],
-" \}
-" let g:ale_fixers = [
-"     \'remove_trailing_lines',
-"     \'trim_whitespace',
-"     \'rustfmt',
-" \]
-"
-" let g:ale_enabled = 0
-" let g:ale_fix_on_save = 0
-" let g:ale_lint_on_save = 1
-" let g:ale_lint_on_text_changed = 0
-" let g:ale_lint_on_enter = 0
-" let g:ale_lint_on_filetype_changed = 0
-" let g:ale_open_list = 1
-" let g:ale_list_window_size = 3
-" let g:ale_warn_about_trailing_blank_lines = 1
-" let g:ale_warn_about_trailing_whitespace = 1
-" let g:ale_set_highlights = 1
-" let g:ale_set_loclist = 1
-" let g:ale_set_quickfix = 0
-" let g:ale_list_window_vertical = 0
-" let g:ale_python_flake8_options = '--ignore=E501'
-" let g:ale_linters_explicit = 1
-" let g:ale_sign_column_always = 1
-"
-" autocmd User ALELintPost call s:ale_loclist_limit()  " see https://github.com/w0rp/ale/issues/1164
-"
+let g:ale_linters = {
+    \'python': ['pyls'],
+    \'rust': ['cargo', 'rls', 'racer'],
+    \'bash': ['shell'],
+    \'dockerfile': ['hadolint'],
+    \'vim': ['vint'],
+    \'clojure': ['joker'],
+    \'JSON': ['jsonlint'],
+    \'SQL': ['sqlint'],
+    \'XML': ['xmllint'],
+    \'cs': ['omnisharp'],
+\}
+let g:ale_fixers = [
+    \'remove_trailing_lines',
+    \'trim_whitespace',
+    \'rustfmt',
+\]
+
+let g:ale_enabled = 1
+let g:ale_fix_on_save = 0
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_filetype_changed = 0
+let g:ale_open_list = 1
+let g:ale_list_window_size = 3
+let g:ale_warn_about_trailing_blank_lines = 1
+let g:ale_warn_about_trailing_whitespace = 1
+let g:ale_set_highlights = 1
+let g:ale_set_loclist = 1
+let g:ale_set_quickfix = 0
+let g:ale_list_window_vertical = 0
+let g:ale_python_flake8_options = '--ignore=E501'
+let g:ale_linters_explicit = 1
+let g:ale_sign_column_always = 1
+
+autocmd User ALELintPost call s:ale_loclist_limit()  " see https://github.com/w0rp/ale/issues/1164
+
 function! s:ale_loclist_limit()
     if exists("b:ale_list_window_size_max")
         let b:ale_list_window_size = min([len(ale#engine#GetLoclist(bufnr('%'))), b:ale_window_size_max])
