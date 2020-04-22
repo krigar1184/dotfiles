@@ -11,3 +11,4 @@ export PATH="$HOME/.poetry/bin:$PATH"
 if [ -r ~/.bashrc ]; then
   . ~/.bashrc
 fi
+export PATH="/usr/local/opt/binutils/bin:$PATH"

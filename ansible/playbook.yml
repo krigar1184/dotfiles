@@ -52,7 +52,7 @@
         virtualenv_command: venv
         requirements: "{{ playbook_dir }}/files/python3-requirements.txt"
         state: forcereinstall
-        extra_args: --user
+        # extra_args: --user
       tags:
         - vim
 
