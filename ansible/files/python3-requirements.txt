@@ -5,4 +5,4 @@ setuptools
 python-language-server
 flake8
 mypy
-jedi
+jedi<0.16,>=0.14.1

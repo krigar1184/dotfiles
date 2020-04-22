@@ -280,27 +280,28 @@ augroup END
 "
 " " Ale
 let g:ale_linters = {
-    \'python': ['pyls'],
-    \'rust': ['cargo', 'rls', 'racer'],
-    \'bash': ['shell'],
-    \'dockerfile': ['hadolint'],
-    \'vim': ['vint'],
-    \'clojure': ['joker'],
-    \'JSON': ['jsonlint'],
-    \'SQL': ['sqlint'],
-    \'XML': ['xmllint'],
-    \'cs': ['omnisharp'],
+  \'python': ['pyls'],
+  \'rust': ['cargo', 'rls', 'racer'],
+  \'bash': ['shell'],
+  \'dockerfile': ['hadolint'],
+  \'vim': ['vint'],
+  \'clojure': ['joker'],
+  \'JSON': ['jsonlint'],
+  \'SQL': ['sqlint'],
+  \'XML': ['xmllint'],
+  \'cs': ['omnisharp'],
 \}
 let g:ale_fixers = [
-    \'remove_trailing_lines',
-    \'trim_whitespace',
-    \'rustfmt',
+  \'remove_trailing_lines',
+  \'trim_whitespace',
+  \'rustfmt',
 \]
 
 let g:ale_enabled = 1
-let g:ale_fix_on_save = 0
+let g:ale_fix_on_save = 1
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_filetype_changed = 0
 let g:ale_open_list = 1
