@@ -280,7 +280,7 @@ augroup END
 "
 " " Ale
 let g:ale_linters = {
-  \'python': ['pyls'],
+  \'python': ['flake8', 'mypy', 'pyls', 'pylint'],
   \'rust': ['cargo', 'rls', 'racer'],
   \'bash': ['shell'],
   \'dockerfile': ['hadolint'],
@@ -290,12 +290,21 @@ let g:ale_linters = {
   \'SQL': ['sqlint'],
   \'XML': ['xmllint'],
   \'cs': ['omnisharp'],
+  \'javascript': ['eslint', 'tsserver'],
+  \'typescript': ['eslint', 'tsserver'],
+  \'typescriptreact': ['eslint', 'tsserver'],
 \}
 let g:ale_fixers = [
   \'remove_trailing_lines',
   \'trim_whitespace',
   \'rustfmt',
 \]
+
+let g:ale_fixers = {
+  \'javasript': ['eslint', 'tsserver'],
+  \'typescript': ['eslint', 'tsserver'],
+  \'typescriptreact': ['eslint', 'tsserver'],
+\}
 
 let g:ale_enabled = 1
 let g:ale_fix_on_save = 1
