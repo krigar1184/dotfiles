@@ -15,6 +15,10 @@ if [ -f /etc/bashrc ]; then
 fi
 
 export PROMPT_COMMAND=prompt_command
+export PATH=/usr/local/opt/llvm/bin:$PATH
+export PATH=$PATH:`llvm-config --bindir`
+export LDFLAGS="-L/usr/local/opt/llvm/lib"
+export CPPFLAGS="-I/usr/local/opt/llvm/include"
 
 if [ -f $DIR_PREFIX/etc/bash_completion ]; then
   source $DIR_PREFIX/etc/bash_completion
@@ -76,3 +80,7 @@ function dps() {
 function mcd() {
   mkdir $1 && cd $1;
 }
+
+complete -C /usr/local/Cellar/terraform/0.11.9/bin/terraform terraform
+
+complete -C /usr/local/bin/terraform terraform

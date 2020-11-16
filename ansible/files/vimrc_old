@@ -1,0 +1,389 @@
+call plug#begin()
+Plug 'scrooloose/nerdtree'
+Plug 'majutsushi/tagbar'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'nanotech/jellybeans.vim'
+Plug 'godlygeek/tabular'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'sjl/gundo.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'plytophogy/vim-virtualenv'
+Plug 'edkolev/tmuxline.vim'
+Plug 'mhinz/vim-signify'
+Plug 'prabirshrestha/async.vim'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next',  'do': 'bash install.sh' }
+Plug 'chrisbra/vim-diff-enhanced'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'janko-m/vim-test'
+Plug 'Shougo/deoplete.nvim', { 'do': 'UpdateRemotePlugins' }
+Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+Plug 'ron-rs/ron.vim', { 'for': 'rust' }
+Plug 'elixir-editors/vim-elixir', { 'for': 'elixir' }
+Plug 'sheerun/vim-polyglot'
+Plug 'trkw/yarn.vim'
+Plug 'glippi/yarn-vim'
+Plug 'tpope/vim-commentary'
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"Plug 'neoclide/coc-python'
+"Plug 'neoclide/coc-json'
+Plug 'jgdavey/tslime.vim'
+Plug 'OmniSharp/omnisharp-vim'
+Plug 'dense-analysis/ale'
+Plug 'wlangstroth/vim-racket', { 'for': 'racket' }
+Plug 'kovisoft/slimv'
+call plug#end()
+
+let g:loaded_python_provider = 1  " Disabling python 2 due to a weird error
+let g:python3_host_prog=expand('~/.config/pynvim3/bin/python')
+
+augroup filetype_python
+    if isdirectory($VIRTUAL_ENV)
+        let g:virtualenv_directory = $VIRTUAL_ENV
+    endif
+augroup END
+
+au BufRead,BufNewFile *.ex,*.exs set filetype=elixir
+au BufRead,BufNewFile *.eex,*.leex set filetype=eelixir
+au BufRead,BufNewFile mix.lock set filetype=elixir
+au BufRead,BufNewFile * call s:DetectElixir()
+
+function! s:DetectElixir()
+  if (!did_filetype() || &filetype !=# 'elixir') && getline(1) =~# '^#!.*\<elixir\>'
+    set filetype=elixir
+  endif
+endfunction
+
+set hidden
+set runtimepath+=expand('~/.config/nvim/plugged/LanguageClient-neovim')
+set runtimepath+=expand('~/.config/nvim/plugged')
+set autoread
+set autowrite
+set clipboard+=unnamedplus
+set expandtab
+set hlsearch
+set incsearch
+set laststatus=2
+set lazyredraw
+set listchars+=precedes:<,extends:>
+set nocompatible
+set nowrap
+set number
+set shiftwidth=2
+set shiftround
+set sidescroll=5
+set signcolumn=yes
+set smartindent
+set softtabstop=4
+set tabstop=4
+set t_Co=256
+set textwidth=0
+set tildeop
+set wildmenu
+set winfixwidth
+set winfixheight
+
+if has('persistent_undo')
+    set undofile
+endif
+
+set statusline=%f  " filename
+set statusline+=%=  " align right
+set statusline+=%y  " filetype
+set statusline+=%m  " modified?
+set statusline+=%r  " readonly?
+set statusline+=%{FugitiveStatusLine()}
+
+:filetype on
+:filetype plugin on
+
+" Mappings
+let mapleader=","
+let maplocalleader="\<space>"
+
+autocmd vimenter * NERDTree
+
+nnoremap <c-h> <c-w>h
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-l> <c-w>l
+
+nnoremap <leader>lo :lopen<cr>
+
+nnoremap <leader>lo :silent! lopen<cr>
+nnoremap <leader>lc :silent! lclose<cr>
+
+nnoremap <leader>bp :bprevious<cr>
+nnoremap <leader>bn :bnext<cr>
+
+noremap <leader>_ ddkP
+noremap <leader>- ddp
+
+inoremap <leader><c-\> <esc>ddi
+inoremap <leader><c-u> <esc>viwU<esc>i
+nnoremap <leader><c-u> viwU<esc>
+vnoremap <leader>\ U
+
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
+nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
+nnoremap <leader>st :!tmux source-file ~/.tmux.conf<cr>
+
+nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
+vnoremap <leader>" <esc>`<i"<esc>`><esc>a"<esc>
+nnoremap <leader>' viw<esc>a'<esc>bi'<esc>lel
+vnoremap <leader>' <esc>`<i'<esc>`><esc>a'<esc>
+
+nnoremap H ^
+nnoremap L $
+onoremap p i(
+
+onoremap in( :<c-u>normal! f(vi(<cr>
+onoremap il( :<c-u>normal! F)vi(<cr>
+onoremap an( :<c-u>normal! f(va(<cr>
+onoremap al( :<c-u>normal! F)va(<cr>
+
+onoremap in[ :<c-u>normal! f[vi[<cr>
+onoremap il[ :<c-u>normal! F]vi[<cr>
+onoremap an[ :<c-u>normal! f[va[<cr>
+onoremap al[ :<c-u>normal! F]va[<cr>
+
+augroup filetype_python
+  autocmd FileType python nnoremap <leader>d oimport ipdb;ipdb.set_trace(context=10)<esc>
+  autocmd FileType python nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
+augroup END
+
+augroup filetype_javascript
+  autocmd FileType javascript nnoremap <leader>d odebugger;<esc>
+  autocmd FileType javascript nnoremap <leader>D Odebugger;<esc>
+augroup END
+
+autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
+"
+" Nerdtree config
+nnoremap <leader>tn :NERDTreeToggle<cr>
+let g:NERDTreeShowHidden = 1
+let g:NERDTreeWinSize = 31
+let g:NERDTreeShowLineNumbers = 1
+let g:NERDTreeIgnore = ['\~$', '\.orig$']
+
+" Gundo
+nnoremap <leader>u :GundoToggle<cr>
+
+" Colorscheme
+set background = "dark"
+let g:solarized_termcolors = 256
+silent! colorscheme jellybeans
+
+" Tagbar
+nnoremap <c-t> :TagbarToggle<cr>
+let g:tagbar_autofocus = 1
+let g:tagbar_sort = 1
+let g:tagbar_show_visibility = 1
+let g:tagbar_show_linenumbers = 1
+let g:autoshowtag = 1
+let g:tagbar_type_typescript = {
+  \ 'ctagsbin' : 'tstags',
+  \ 'ctagsargs' : '-f-',
+  \ 'kinds': [
+    \ 'e:enums:0:1',
+    \ 'f:function:0:1',
+    \ 't:typealias:0:1',
+    \ 'M:Module:0:1',
+    \ 'I:import:0:1',
+    \ 'i:interface:0:1',
+    \ 'C:class:0:1',
+    \ 'm:method:0:1',
+    \ 'p:property:0:1',
+    \ 'v:variable:0:1',
+    \ 'c:const:0:1',
+  \ ],
+  \ 'sort' : 0
+\ }
+
+" Fugitive
+nnoremap <leader>gb :Gblame<cr>
+nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gg :Ggrep<cr>
+nnoremap <leader>gl :Glog<cr>
+
+" LSP
+let g:LanguageClient_settingsPath = expand('~/.config/nvim/plugged/LanguageClient-neovim/.vim/settings.json')
+let g:LanguageClient_serverCommands = {
+  \ 'python': ['~/.config/pynvim3/bin/python', '-m', 'pyls'],
+  \ 'javascript': ['javascript-typescript-stdio'],
+  \ 'typescript': ['javascript-typescript-stdio'],
+  \ 'typescriptreact': ['javascript-typescript-stdio'],
+  \ 'typescript.tsx': ['javascript-typescript-stdio'],
+  \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+  \ 'dockerfile': ['hadolint'],
+  \ 'haskell': ['hie-wrapper'],
+  \ 'elixir': ['elixir-ls'],
+  \ 'c': ['cquery', '--init={"cacheDirectory":"/tmp/cquery"}'],
+  \ 'cpp': ['cquery', '--init={"cacheDirectory":"/tmp/cquery"}'],
+  \ 'cs': ['mono', '~/.cache/omnisharp-vim/omnisharp-roslyn/OmniSharp.exe', '-lsp'],
+\ }
+
+let g:LanguageClient_rootMarkers = {
+  \ 'elixir': ['mix.lock', 'mix.exs'],
+  \ 'javascript': ['lerna.json', 'package.json'],
+  \ 'typescript': ['lerna.json', 'tsconfig.json'],
+\ }
+
+nnoremap <silent> <F4> :LanguageClient_contextMenu()<cr>
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<cr>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<cr>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<cr>
+nnoremap <silent> <leader>fu :LanguageClient#findLocations()<cr>
+
+let g:OmniSharpStartServer = 1
+let g:OmniSharp_server_stdio = 1
+let g:OmniSharp_server_use_mono = 1
+let g:OmniSharp_selector_ui = 'fzf'
+
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_smart_case = 1
+
+call deoplete#custom#option('sources', {
+  \ 'cs': ['omnisharp'],
+  \ })
+
+function! LC_log()
+   :e expand('~/.local/share/nvim/LanguageClient.log')
+endfunction
+
+function! LC_stderr()
+    :e expand('~/.local/share/nvim/LanguageServer.log')
+endfunction
+
+let $RUST_BACKTRACE=1
+let g:LanguageClient_autoStart = 1
+let g:LanguageClient_autoStop = 1
+let g:LanguageClient_loggingLevel = 'DEBUG'
+let g:LanguageClient_loggingFile = expand('~/.local/share/nvim/LanguageClient.log')
+let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
+let g:LanguageClient_selectionUI = 'fzf'
+let g:LanguageClient_diagnosticsEnable = 1
+let g:LanguageClient_diagnosticsList = 'Location'
+let g:LanguageClient_diagnosticsSignsMax = 5
+let g:LanguageClient_windowLogMessageLevel = 'Error'
+let g:LanguageClient_fzfContextMenu = 1
+let g:LanguageClient_hoverPreview = 'Auto'
+
+augroup filetype_rust
+    autocmd!
+    autocmd BufReadPost *.rs setlocal filetype=rust
+augroup END
+"
+" " Ale
+let g:ale_linters = {
+  \'python': ['flake8', 'mypy', 'pyls', 'pylint'],
+  \'rust': ['cargo', 'rls', 'racer'],
+  \'bash': ['shell'],
+  \'dockerfile': ['hadolint'],
+  \'vim': ['vint'],
+  \'clojure': ['joker'],
+  \'JSON': ['jsonlint'],
+  \'SQL': ['sqlint'],
+  \'XML': ['xmllint'],
+  \'cs': ['omnisharp'],
+  \'javascript': ['eslint', 'tsserver'],
+  \'typescript': ['eslint', 'tsserver'],
+  \'typescriptreact': ['eslint', 'tsserver'],
+\}
+let g:ale_fixers = [
+  \'remove_trailing_lines',
+  \'trim_whitespace',
+  \'rustfmt',
+\]
+
+let g:ale_fixers = {
+  \'javasript': ['eslint', 'tsserver'],
+  \'typescript': ['eslint', 'tsserver'],
+  \'typescriptreact': ['eslint', 'tsserver'],
+\}
+
+let g:ale_enabled = 1
+let g:ale_fix_on_save = 1
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_filetype_changed = 0
+let g:ale_open_list = 0
+let g:ale_list_window_size = 3
+let g:ale_warn_about_trailing_blank_lines = 1
+let g:ale_warn_about_trailing_whitespace = 1
+let g:ale_set_highlights = 1
+let g:ale_set_loclist = 1
+let g:ale_set_quickfix = 0
+let g:ale_list_window_vertical = 0
+let g:ale_python_flake8_options = '--ignore=E501'
+let g:ale_linters_explicit = 1
+let g:ale_sign_column_always = 1
+
+autocmd User ALELintPost call s:ale_loclist_limit()  " see https://github.com/w0rp/ale/issues/1164
+
+function! s:ale_loclist_limit()
+    if exists("b:ale_list_window_size_max")
+        let b:ale_list_window_size = min([len(ale#engine#GetLoclist(bufnr('%'))), b:ale_window_size_max])
+    elseif exists("g:ale_list_window_size_max")
+        let b:ale_list_window_size = min([len(ale#engine#GetLoclist(bufnr('%'))), g:ale_list_window_size])
+    endif
+endfunction
+
+" Signify
+let g:signify_vcs_list = ['git']
+let g:signify_realtime = 1
+
+" Gundo
+let g:gundo_prefer_python3 = 1
+
+" Airline
+let g:airline_theme = 'jellybeans'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tabgar#enabled = 1
+
+let g:airline#extensions#tagbar#flags = 's'
+let g:airline#extensions#tmuxline#enabled = 1
+let g:airline#extensions#nerdtree#enabled = 1
+"let g:airline#extensions#ale#enabled = 1
+let g:airlint#init#vim_async = 1
+let g:airline_powerline_fonts = 1
+let g:airline_left_sep = "\ue0b0"
+
+" Ripgrep
+nnoremap <leader>rg :Rg<cr>
+let g:rg_highlight = 1
+
+" Diff-enhanced
+if &diff
+    let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
+endif
+
+" FZF
+let g:fzf_buffers_jump = 1
+nnoremap <c-f> :History<cr>
+nnoremap <c-p> :Files<cr>
+nnoremap <c-g> :Rg<cr>
+nnoremap <c-b> :Buffers<cr>
+
+" Vim-test
+let test#strategy = "asyncrun"
+
+nnoremap <silent> t<C-n> :TestNearest<cr>
+nnoremap <silent> t<C-f> :TestFile<cr>
+nnoremap <silent> t<C-s> :TestSuite<cr>
+nnoremap <silent> t<C-l> :TestLast<cr>
+nnoremap <silent> t<C-g> :TestVisit<cr>
+nnoremap <c-g> :Rg<cr>
+nnoremap <c-b> :Buffers<cr>
+
+let g:fzf_buffers_jump = 1
