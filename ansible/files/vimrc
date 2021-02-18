@@ -2,13 +2,14 @@ let $NVIM_COC_LOG_LEVEL='debug'
 let $NVIM_COC_LOG_FILE='/var/tmp/coc-nvim.log'
 
 call plug#begin()
+Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-commentary'
 Plug 'Shougo/echodoc.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-Plug 'neoclide/coc-python'
+Plug 'fannheyward/coc-pyright'
 Plug 'neoclide/coc-json'
 Plug 'neoclide/coc-tsserver'
 Plug 'iamcco/coc-actions'
@@ -35,8 +36,11 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
+Plug 'liuchengxu/vista.vim'
 call plug#end()
 
+set nobackup
+set nowritebackup
 set hidden
 set autoread
 set autowrite
@@ -70,6 +74,7 @@ set statusline=%f  " filename
 set statusline+=%=  " align right
 set statusline+=%y  " filetype
 set statusline+=%m  " modified?
+set updatetime=300
 
 :filetype on
 :filetype plugin on
@@ -77,7 +82,12 @@ set statusline+=%m  " modified?
 let g:loaded_python_provider = 1  " Disabling python 2 due to a weird error
 let g:python3_host_prog=expand('~/.config/pynvim3/bin/python')
 
-autocmd vimenter * NERDTree
+function! ToggleExplorer()
+  CocCommand explorer --preset normal
+endfunction
+
+autocmd vimenter * call ToggleExplorer()
+nnoremap <leader>tn call ToggleExplorer()
 
 let mapleader=","
 
