@@ -2,6 +2,7 @@ let $NVIM_COC_LOG_LEVEL='debug'
 let $NVIM_COC_LOG_FILE='/var/tmp/coc-nvim.log'
 
 call plug#begin()
+Plug 'mbbill/undotree'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-commentary'
 Plug 'Shougo/echodoc.vim'
@@ -88,6 +89,7 @@ endfunction
 
 autocmd vimenter * call ToggleExplorer()
 nnoremap <leader>tn call ToggleExplorer()
+nnoremap <leader>u :UndotreeToggle<cr>
 
 let mapleader=","
 
@@ -109,8 +111,8 @@ nnoremap L $
 onoremap p i(
 
 augroup filetype_python
-  autocmd FileType python nnoremap <leader>d oimport ipdb;ipdb.set_trace(context=10)<esc>
-  autocmd FileType python nnoremap <leader>D Oimport ipdb;ipdb.set_trace(context=10)<esc>
+  autocmd FileType python nnoremap <leader>d obreakpoint()<esc>
+  autocmd FileType python nnoremap <leader>D Obreakpoint()<esc>
 augroup END
 
 augroup filetype_javascript
