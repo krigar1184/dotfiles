@@ -10,28 +10,28 @@ Plug 'scrooloose/nerdtree'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-Plug 'fannheyward/coc-pyright'
 Plug 'neoclide/coc-json'
 Plug 'neoclide/coc-tsserver'
+Plug 'neoclide/coc-css'
+Plug 'neoclide/coc-eslint'
+Plug 'neoclide/coc-html'
+Plug 'neoclide/coc-json'
+Plug 'neoclide/coc-rls'
+Plug 'neoclide/coc-yaml'
+Plug 'neoclide/coc-git'
+Plug 'fannheyward/coc-pyright'
+Plug 'fannheyward/coc-markdownlint'
+Plug 'fannheyward/coc-rust-analyzer'
+Plug 'fannheyward/coc-xml'
 Plug 'iamcco/coc-actions'
 Plug 'joenye/coc-cfn-lint'
 Plug 'clangd/coc-clangd'
 Plug 'pappasam/coc-jedi'
 Plug 'voldikss/coc-cmake'
-Plug 'neoclide/coc-css'
-Plug 'neoclide/coc-eslint'
 Plug 'weirongxu/coc-explorer'
-Plug 'neoclide/coc-git'
-Plug 'neoclide/coc-html'
-Plug 'neoclide/coc-json'
-Plug 'fannheyward/coc-markdownlint'
-Plug 'neoclide/coc-rls'
-Plug 'fannheyward/coc-rust-analyzer'
 Plug 'josa42/coc-sh'
 Plug 'voldikss/coc-template'
 Plug 'iamcco/coc-vimlsp'
-Plug 'fannheyward/coc-xml'
-Plug 'neoclide/coc-yaml'
 Plug 'nanotech/jellybeans.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'install --all' }
 Plug 'junegunn/fzf.vim'
@@ -41,6 +41,7 @@ Plug 'liuchengxu/vista.vim'
 Plug 'rust-lang/rust.vim', {'for': 'rust'}
 Plug 'ron-rs/ron.vim', {'for': 'rust'}
 Plug 'sheerun/vim-polyglot'
+Plug 'tpope/vim-fugitive'
 call plug#end()
 
 set nobackup
@@ -94,8 +95,10 @@ autocmd vimenter * call ToggleExplorer()
 nnoremap <leader>tn call ToggleExplorer()
 nnoremap <leader>u :UndotreeToggle<cr>
 
-let mapleader=","
+let mapleader=','
 
+nnoremap <leader>tn :call ToggleExplorer()<cr>
+nnoremap <leader>tv :Vista<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
